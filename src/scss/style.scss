@@ -1,0 +1,26 @@
+@charset 'utf-8';
+
+/*Main*/
+
+// Import Opens Sans
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+// Import Custom Variables
+@import 'variables';
+
+// Importing Bulma Defaults
+@import '~bulma/sass/utilities/all';
+@import '~bulma/sass/base/all';
+@import '~bulma/sass/components/card';
+@import '~bulma/sass/components/navbar';
+@import '~bulma/sass/elements/button';
+@import '~bulma/sass/elements/content';
+@import '~bulma/sass/elements/table';
+@import '~bulma/sass/elements/title';
+@import '~bulma/sass/form/all';
+@import '~bulma/sass/grid/columns';
+@import '~bulma/sass/layout/section';
+@import '~bulma/sass/layout/footer';
+
+// Import Custom CSS and Classes
+@import 'custom';
