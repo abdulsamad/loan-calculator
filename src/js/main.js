@@ -227,7 +227,7 @@ function calcEMI(e) {
 
 
   window.onscroll = () => {
-    if (window.pageYOffset > 300) {
+    if (window.pageYOffset > 50) {
       uiScrollTop.classList.remove('is-hidden');
       footer.classList.remove('is-invisible');
     } else {
