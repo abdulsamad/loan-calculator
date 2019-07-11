@@ -1,285 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta name="description" content="This Program help's you to Calculate Loan Repayment Amount" />
+		<meta name="keywords" content="loancalculator,calculateloan,loanrepaymentcalculator" />
+		<title>Loan Calculator</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="This Program help's you to Calculate Loan Repayment Amount">
-  <meta name="keywords" content="loancalculator,calculateloan,loanrepaymentcalculator">
-  <title>Loan Calculator</title>
-</head>
+	<body>
+		<!-- Loader -->
+		<div class="is-flex loadContainer" id="loadElem">
+			<div class="loader"></div>
+		</div>
 
-<body>
-  <!-- Loader -->
-  <div class="is-flex loadContainer" id="loadElem">
-    <div class="loader"></div>
-  </div>
+		<!-- Main -->
+		<div class="main is-hidden" id="main">
+			<!-- Background -->
+			<div class="bg" id="bg">
+				<img class="bg-svg" src="img/top-background.svg" alt="" />
+			</div>
 
-  <!-- Main -->
-  <div class="main is-hidden" id="main">
+			<!-- Container -->
+			<div class="container is-relative">
+				<!-- Nav -->
+				<nav class="navbar is-transparent" aria-label="main navigation">
+					<div class="navbar-start"></div>
+					<div class="navbar-brand fadeDown">
+						<h1 class="navbar-item title is-3 has-text-white-bis">
+							Loan Calculator
+						</h1>
+					</div>
+					<div class="navbar-end"></div>
+				</nav>
 
-    <!-- Background -->
-    <div class="bg" id="bg">
-      <img class="bg-svg" src="img/top-background.svg" alt="">
-    </div>
+				<!-- Section 1 -->
+				<section class="section">
+					<div class="columns">
+						<div class="column is-4 fadeDown">
+							<div class="card h-100">
+								<div class="card-content">
+									<div class="content">
+										<form id="form">
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiAmount" class="label button is-white is-paddingless-x">
+																	Amount
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field">
+															<div class="field has-addons">
+																<div class="control is-expanded">
+																	<input
+																		class="input"
+																		id="uiAmount"
+																		type="number"
+																		placeholder="Enter the Amount"
+																		min="1"
+																		max="100000000000"
+																		required
+																	/>
+																</div>
+																<div class="control">
+																	<div class="select">
+																		<select id="uiCurrency">
+																			<option data-currency="INR" value="en-IN">&#8377;</option>
+																			<option data-currency="USD" value="en-US" selected>&#36;</option>
+																			<option data-currency="EUR" value="en-EUR">&#163;</option>
+																			<option data-currency="JPY" value="en-JP">&#0165;</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiInterest" class="label button is-white is-paddingless-x">Interest</label>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field has-addons">
+															<div class="control is-expanded">
+																<input
+																	class="input"
+																	id="uiInterest"
+																	type="number"
+																	placeholder="Interest Percent"
+																	min="0.1"
+																	max="999"
+																	step="0.05"
+																	required
+																/>
+															</div>
+															<div class="control">
+																<button class="button is-static has-text-weight-bold">
+																	%
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiTenure" class="label button is-white is-paddingless-x">Tenure</label>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field has-addons">
+															<div class="control is-expanded">
+																<input
+																	class="input"
+																	id="uiTenure"
+																	type="number"
+																	placeholder="10"
+																	min="0.1"
+																	max="30"
+																	step="0.1"
+																	required
+																/>
+															</div>
+															<div class="control">
+																<button class="button is-static has-text-weight-bold">
+																	Years
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field is-grouped is-grouped-centered">
+												<div class="control">
+													<button class="button is-danger is-rounded is-ripple" id="uiResetBtn" type="reset">
+														Reset
+													</button>
+												</div>
+												<div class="control">
+													<button class="button is-primary is-rounded is-ripple" id="uiSubmitBtn" type="submit">
+														Calculate
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="column is-4 uiResultItem is-hidden fadeDown">
+							<div class="card h-100">
+								<header class="card-header">
+									<p class="card-header-title is-3">Details</p>
+								</header>
+								<div class="card-content">
+									<div class="content">
+										<form>
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiEmi" class="label button is-white is-paddingless-x">Monthly EMI</label>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field">
+															<div class="control">
+																<input class="input is-disabled" id="uiEmi" type="text" placeholder="0" disabled />
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiTotalInterest" class="label button is-white is-paddingless-x"
+																	>Total Interest</label
+																>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field">
+															<div class="control">
+																<input
+																	class="input is-disabled has-font-weight-semi-bold"
+																	id="uiTotalInterest"
+																	type="text"
+																	placeholder="0"
+																	disabled
+																/>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field scaleUp">
+												<div class="columns is-mobile">
+													<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
+														<div class="field">
+															<div class="control">
+																<label for="uiTotalAmount" class="label button is-white is-paddingless-x">
+																	Total Amount
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="column">
+														<div class="field">
+															<div class="control">
+																<input
+																	class="input is-disabled"
+																	id="uiTotalAmount"
+																	type="text"
+																	placeholder="0"
+																	disabled
+																/>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="column is-4 uiResultItem is-hidden fadeDown">
+							<div class="card h-100">
+								<div class="card-content">
+									<div class="content">
+										<div class="scaleUp">
+											<canvas id="pieChart" height="130" width="250"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 
-    <!-- Container -->
-    <div class="container is-relative">
+				<!-- Section 2 -->
+				<section class="section">
+					<div class="columns">
+						<div class="column is-6 uiResultItem is-hidden fadeDown">
+							<div class="title is-4 has-text-white-bis has-text-centered">
+								Month Wise
+							</div>
+							<div class="table-container">
+								<table class="table is-bordered is-hoverable is-striped is-fullwidth" id="uiMonthWise">
+									<thead>
+										<tr>
+											<th>Month</th>
+											<th>Principal</th>
+											<th>Repayment</th>
+											<th>Interest</th>
+											<th>Paid</th>
+											<th>New Balance</th>
+										</tr>
+									</thead>
+									<tbody id="uiTableBody"></tbody>
+									<tfoot>
+										<tr>
+											<th>Total</th>
+											<th>-</th>
+											<th id="uiTableRepayTotal"></th>
+											<th id="uiTableInterestTotal"></th>
+											<th id="uiTablePrincipalPaidTotal"></th>
+											<th>-</th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+						<div class="column is-6 uiResultItem is-hidden fadeDown">
+							<div class="title is-4 has-text-white-bis has-text-centered">
+								Yearly Timeline Chart
+							</div>
+							<div class="card">
+								<div class="card-content">
+									<div class="content">
+										<div class="scaleUp">
+											<canvas id="lineChart" height="180" width="280"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="uiScrollTopArrow is-hidden" id="uiScrollTop">
+						<a class="button is-primary is-rounded fadeDown" href="#">
+							<div class="arrow"></div>
+						</a>
+					</div>
+				</section>
 
-      <!-- Nav -->
-      <nav class="navbar is-transparent" aria-label="main navigation">
-        <div class="navbar-start"></div>
-        <div class="navbar-brand fadeDown">
-          <h1 class="navbar-item title is-3 has-text-white-bis">Loan Calculator</h1>
-        </div>
-        <div class="navbar-end"></div>
-      </nav>
-
-      <!-- Section 1 -->
-      <section class="section">
-        <div class="columns">
-          <div class="column is-4 fadeDown">
-            <div class="card h-100">
-              <div class="card-content">
-                <div class="content">
-                  <form id="form">
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiAmount" class="label button is-white is-paddingless-x">Amount</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field">
-                            <div class="field has-addons">
-                              <div class="control is-expanded">
-                                <input class="input" id="uiAmount" type="number" placeholder="Enter the Amount" min="1"
-                                  max="100000000000" required>
-                              </div>
-                              <div class="control">
-                                <div class="select">
-                                  <select id="uiCurrency">
-                                    <option data-currency="INR" value="en-IN">&#8377;</option>
-                                    <option data-currency="USD" value="en-US" selected>&#36;</option>
-                                    <option data-currency="EUR" value="en-EUR">&#163;</option>
-                                    <option data-currency="JPY" value="en-JP">&#0165;</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiInterest" class="label button is-white is-paddingless-x">Interest</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field has-addons">
-                            <div class="control is-expanded">
-                              <input class="input" id="uiInterest" type="number" placeholder="Interest Percent"
-                                min="0.1" max="999" step="0.05" required>
-                            </div>
-                            <div class="control">
-                              <button class="button is-static has-text-weight-bold">%</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiTenure" class="label button is-white is-paddingless-x">Tenure</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field has-addons">
-                            <div class="control is-expanded">
-                              <input class="input" id="uiTenure" type="number" placeholder="10" min="0" max="30"
-                                required>
-                            </div>
-                            <div class="control">
-                              <button class="button is-static has-text-weight-bold">Years</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field is-grouped is-grouped-centered">
-                      <div class="control">
-                        <button class="button is-danger is-rounded" id="uiResetBtn" type="reset">Reset</button>
-                      </div>
-                      <div class="control">
-                        <button class="button is-primary is-rounded" id="uiSubmitBtn" type="submit">Calculate</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column is-4 uiResultItem is-hidden fadeDown">
-            <div class="card h-100">
-              <header class="card-header">
-                <p class="card-header-title is-3">Details</p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  <form>
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiEmi" class="label button is-white is-paddingless-x">Monthly EMI</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field">
-                            <div class="control">
-                              <input class="input is-disabled" id="uiEmi" type="text" placeholder="0" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiTotalInterest" class="label button is-white is-paddingless-x">Total
-                                Interest</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field">
-                            <div class="control">
-                              <input class="input is-disabled has-font-weight-semi-bold" id="uiTotalInterest"
-                                type="text" placeholder="0" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field scaleUp">
-                      <div class="columns is-mobile">
-                        <div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-                          <div class="field">
-                            <div class="control">
-                              <label for="uiTotalAmount" class="label button is-white is-paddingless-x">Total
-                                Amount</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="field">
-                            <div class="control">
-                              <input class="input is-disabled" id="uiTotalAmount" type="text" placeholder="0" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column is-4 uiResultItem is-hidden fadeDown">
-            <div class="card h-100">
-              <div class="card-content">
-                <div class="content">
-                  <div class="scaleUp">
-                    <canvas id="pie-chart" height="130" width="250"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 2 -->
-      <section class="section">
-        <div class="columns">
-          <div class="column is-6 uiResultItem is-hidden fadeDown">
-            <div class="title is-4 has-text-white-bis has-text-centered">Month Wise</div>
-            <div class="table-container">
-              <table class="table is-bordered is-hoverable is-striped is-fullwidth" id="uiMonthWise">
-                <thead>
-                  <tr>
-                    <th>Month</th>
-                    <th>Principal</th>
-                    <th>Repayment</th>
-                    <th>Interest</th>
-                    <th>Paid</th>
-                    <th>New Balance</th>
-                  </tr>
-                </thead>
-                <tbody id="uiTableBody"></tbody>
-                <tfoot>
-                  <tr>
-                    <th>Total</th>
-                    <th>-</th>
-                    <th id="uiTableRepayTotal"></th>
-                    <th id="uiTableInterestTotal"></th>
-                    <th id="uiTablePrincipalPaidTotal"></th>
-                    <th>-</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-          <div class="column is-6 uiResultItem is-hidden fadeDown">
-            <div class="title is-4 has-text-white-bis has-text-centered">Yearly Timeline Chart</div>
-            <div class="card">
-              <div class="card-content">
-                <div class="content">
-                  <div class="scaleUp">
-                    <canvas id="lineChart" height="180" width="280"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="uiScrollTopArrow is-hidden" id="uiScrollTop">
-          <a class="button is-primary is-rounded fadeDown" href="#">
-            <div class="arrow"></div>
-          </a>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="footer is-invisible" id="footer">
-        <div class="content has-text-centered">
-          <p>
-            <strong class="has-text-white-bis">Loan Calculator</strong> by <a class="link"
-              href="https://asamad.tech">Abdul
-              Samad</a>. The source code is available on <a
-              href="https://github.com/asamad05/loan_calculator">github</a>
-          </p>
-        </div>
-      </footer>
-    </div>
-  </div>
-</body>
-
+				<!-- Footer -->
+				<footer class="footer is-invisible" id="footer">
+					<div class="content has-text-centered">
+						<p>
+							<strong class="has-text-white-bis">Loan Calculator</strong> by
+							<a class="link" href="https://asamad.tech">Abdul Samad</a>. The source code is available on
+							<a href="https://github.com/asamad05/loan_calculator">github</a>
+						</p>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</body>
 </html>
