@@ -12,78 +12,64 @@ window.addEventListener('load', () => {
 	}, 1500);
 });
 
-// Form
-const form = document.querySelector('#form');
-form.addEventListener('submit', ev => {
-	ev.preventDefault();
-	console.time('time');
+// Helper
 
-	// UI Variables
-	const uiAmount = document.querySelector('#uiAmount');
+function formatCurrency(val) {
 	const uiCurrency = document.querySelector('#uiCurrency');
-	const uiInterest = document.querySelector('#uiInterest');
-	const uiTenure = document.querySelector('#uiTenure');
-	const uiEmi = document.querySelector('#uiEmi');
-	const uiTotalInterest = document.querySelector('#uiTotalInterest');
-	const uiTotalAmount = document.querySelector('#uiTotalAmount');
-	const uiResultItem = document.querySelectorAll('.uiResultItem');
-	const uiSubmitBtn = document.querySelector('#uiSubmitBtn');
-	const uiResetBtn = document.querySelector('#uiResetBtn');
-	const uiTableBody = document.querySelector('#uiTableBody');
-	const uiTableRepayTotal = document.querySelector('#uiTableRepayTotal');
-	const uiTableInterestTotal = document.querySelector('#uiTableInterestTotal');
-	const uiTablePrincipalPaidTotal = document.querySelector('#uiTablePrincipalPaidTotal');
-	const uiPieChart = document.querySelector('#pieChart').getContext('2d');
-	const uiLineChart = document.querySelector('#lineChart').getContext('2d');
-	const uiScrollTop = document.querySelector('#uiScrollTop');
-	const footer = document.querySelector('#footer');
-	let pieChart, lineChart;
+	const str = Number(val);
+	return new Intl.NumberFormat(uiCurrency.value, {
+		style: 'currency',
+		currency: uiCurrency.options[uiCurrency.selectedIndex].getAttribute('data-currency'),
+	}).format(str);
+}
 
-	// UI Form Values
-	const uiAmountVal = uiAmount.value;
-	const uiCurrencyVal = uiCurrency.value;
-	const uiInterestVal = uiInterest.value;
-	const uiTenureVal = uiTenure.value;
-
-	// Validating Tenure
-	if (uiTenureVal > 30) {
-		alert('Please enter a valid number');
-		return false;
-	} else {
-		uiSubmitBtn.classList.add('is-loading');
-		uiTenure.blur();
+// Classes
+class CalcEMI {
+	constructor(amount, interest, tenure) {
+		this.amount = parseFloat(amount).toFixed(2);
+		this.interest = parseFloat(interest);
+		this.monthlyInterest = this.interest / 100 / 12;
+		this.tenure = parseFloat(tenure);
+		this.totalMonths = parseFloat(tenure) * 12;
 	}
 
-	// Extra & Helper Functions
-
-	function formatCurrency(val) {
-		const str = Number(val);
-		return new Intl.NumberFormat(uiCurrencyVal, {
-			style: 'currency',
-			currency: uiCurrency.options[uiCurrency.selectedIndex].getAttribute('data-currency'),
-		}).format(str);
+	emi() {
+		const x = Math.pow(1 + this.monthlyInterest, this.totalMonths);
+		const emi = ((this.amount * x * this.monthlyInterest) / (x - 1)).toFixed(2);
+		return emi;
 	}
 
-	function timeArray() {
+	totalAmount() {
+		return (this.emi() * this.totalMonths).toFixed(2);
+	}
+
+	totalInterest() {
+		return (this.emi() * this.totalMonths - this.amount).toFixed(2);
+	}
+
+	timeArr() {
 		const str = [];
-		for (let i = 0; i < uiTenureVal; i++) {
+		for (let i = 0; i < this.tenure; i++) {
 			str.push('Year ' + (i + 1));
 		}
 		return str;
 	}
 
-	function yearlyArr(param, amount, monthlyInterest, emi, totalMonths) {
+	yearlyArr() {
+		let tBodyStr = '';
 		const yearlyInterestArr = [];
 		const yearlyPrincipalArr = [];
+		const yearlyTotalArr = [];
 		const monthlyInterestArr = [];
 		const monthlyPrincipalArr = [];
-		let newBalance = amount;
+
+		let newBalance = this.amount;
 		let interestAmount = 0;
 		let principalAmount = 0;
 
-		for (let i = 1; i <= totalMonths; i++) {
-			const interestPaid = newBalance * monthlyInterest,
-				principalPaid = emi - interestPaid;
+		for (let i = 1; i <= this.totalMonths; i++) {
+			const interestPaid = newBalance * this.monthlyInterest,
+				principalPaid = this.emi() - interestPaid;
 			// Adding Monthly Payments
 			interestAmount += interestPaid;
 			principalAmount += principalPaid;
@@ -94,170 +80,245 @@ form.addEventListener('submit', ev => {
 			if (i % 12 === 0) {
 				yearlyInterestArr.push(interestAmount.toFixed(2));
 				yearlyPrincipalArr.push(principalAmount.toFixed(2));
+				yearlyTotalArr.push((this.emi() * 12).toFixed(2));
 				interestAmount = 0;
 				principalAmount = 0;
 			}
-			// Resetting Balace For Yearly Count
-			newBalance -= principalPaid;
+			tBodyStr += `<tr>
+			<th>${i}</th>
+			<td>${formatCurrency(newBalance)}</td>
+			<td>${formatCurrency(this.emi())}</td>
+			<td>${formatCurrency(interestPaid)}</td>
+			<td>${formatCurrency(principalPaid)}</td>
+			<td>${formatCurrency((newBalance -= principalPaid))}</td>
+			</tr>`;
 		}
 		// Returning Value
-		if (param === 'yearlyInterest') {
-			return yearlyInterestArr;
-		} else if (param === 'yearlyPrincipal') {
-			return yearlyPrincipalArr;
-		} else if (param === 'monthlyInterest') {
-			return monthlyInterestArr;
-		} else if (param === 'monthlyPrincipal') {
-			return monthlyPrincipalArr;
-		}
+		const arrObj = {
+			yearlyInterestArr: yearlyInterestArr,
+			yearlyPrincipalArr: yearlyPrincipalArr,
+			tBodyStr: tBodyStr,
+			yearlyTotalArr: yearlyTotalArr,
+		};
+		return arrObj;
+	}
+}
+
+class UI {
+	constructor(
+		principal,
+		interest,
+		emi,
+		totalAmount,
+		totalInterest,
+		timeArr,
+		yearlyPrincipalArr,
+		yearlyInterestArr,
+		yearlyTotalArr,
+		tBodyStr,
+	) {
+		this.principal = principal;
+		this.interest = interest;
+		this.emi = emi;
+		this.totalAmount = totalAmount;
+		this.totalInterest = totalInterest;
+		this.timeArr = timeArr;
+		this.yearlyPrincipalArr = yearlyPrincipalArr;
+		this.yearlyInterestArr = yearlyInterestArr;
+		this.yearlyTotalArr = yearlyTotalArr;
+		this.tBodyStr = tBodyStr;
 	}
 
-	uiResetBtn.onclick = () => {
-		pieChart.destroy();
-		lineChart.destroy();
-		document.body.scrollIntoView({
-			behavior: 'smooth',
-		});
-		uiResultItem.forEach(e => e.classList.add('is-hidden'));
-	};
+	detailsCard() {
+		const uiEMI = document.querySelector('#uiEmi');
+		const uiTotalInterest = document.querySelector('#uiTotalInterest');
+		const uiTotalAmount = document.querySelector('#uiTotalAmount');
 
-	// Calculation Variables
-	const principal = parseFloat(uiAmountVal).toFixed(2);
-	const monthlyInterest = parseFloat(uiInterestVal) / 100 / 12;
-	const totalMonths = parseFloat(uiTenureVal) * 12;
-	const x = Math.pow(1 + monthlyInterest, totalMonths);
-	const emi = ((principal * x * monthlyInterest) / (x - 1)).toFixed(2);
-	const totalAmount = (emi * totalMonths).toFixed(2);
-	const totalInterest = (emi * totalMonths - principal).toFixed(2);
+		setTimeout(() => {
+			uiEMI.value = formatCurrency(this.emi);
+			uiTotalInterest.value = formatCurrency(this.totalInterest);
+			uiTotalAmount.value = formatCurrency(this.totalAmount);
+		}, 500);
 
-	// Pie Chart
-	uiPieChart.innerHTML = null;
-
-	pieChart = new Chart(uiPieChart, {
-		type: 'pie',
-		data: {
-			labels: ['Principal', 'Interest'],
-			datasets: [
-				{
-					label: 'Loan Pie Chart',
-					data: [principal, totalInterest],
-					backgroundColor: ['rgb(35, 209, 96)', 'rgb(252, 69, 69)'],
-					borderColor: ['rgb(35, 209, 96)', 'rgb(252, 69, 69)'],
-					borderWidth: 1,
-				},
-			],
-		},
-		options: {
-			tooltips: {
-				callbacks: {
-					label: function(tooltipItem, data) {
-						const label = `${data.labels[tooltipItem.index]} : ${
-							uiCurrency.options[uiCurrency.selectedIndex].innerHTML
-						}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
-						return label;
-					},
-				},
-			},
-		},
-	});
-
-	// MonthWise Table DOM Manipulation
-	let newBalance = parseFloat(uiAmountVal);
-	uiTableBody.innerHTML = null;
-	const monthlyInterestArr = yearlyArr('monthlyInterest', uiAmountVal, monthlyInterest, emi, totalMonths);
-	const monthlyPrincipalArr = yearlyArr('monthlyPrincipal', uiAmountVal, monthlyInterest, emi, totalMonths);
-
-	for (let i = 0; i < totalMonths; i++) {
-		uiTableBody.innerHTML += `<tr>
-		<th>${i + 1}</th>
-		<td>${formatCurrency(newBalance)}</td>
-		<td>${formatCurrency(emi)}</td>
-		<td>${formatCurrency(monthlyInterestArr[i])}</td>
-		<td>${formatCurrency(monthlyPrincipalArr[i])}</td>
-		<td>${formatCurrency((newBalance -= monthlyPrincipalArr[i]))}</td>
-		</tr>`;
+		setTimeout(() => {
+			document.querySelector('.uiResultItem').scrollIntoView({
+				behavior: 'smooth',
+			});
+		}, 1000);
 	}
 
-	uiTableRepayTotal.innerText = formatCurrency(totalAmount);
-	uiTableInterestTotal.innerText = formatCurrency(totalInterest);
-	uiTablePrincipalPaidTotal.innerText = formatCurrency(principal);
+	pieChart() {
+		const uiPieChart = document.querySelector('#pieChart');
+		const uiPieChartContext = uiPieChart.getContext('2d');
+		const uiCurrency = document.querySelector('#uiCurrency');
+		uiPieChart.innerHTML = null;
 
-	// Line Chart
-	uiLineChart.innerHTML = null;
-
-	lineChart = new Chart(uiLineChart, {
-		type: 'bar',
-		data: {
-			labels: timeArray(),
-			datasets: [
-				{
-					label: 'Principal',
-					data: yearlyArr('yearlyPrincipal', uiAmountVal, monthlyInterest, emi, totalMonths),
-					backgroundColor: 'rgb(35, 209, 96)',
-					borderColor: 'rgb(35, 209, 96)',
-					borderWidth: 2,
-				},
-				{
-					label: 'Interest',
-					data: yearlyArr('yearlyInterest', uiAmountVal, monthlyInterest, emi, totalMonths),
-					backgroundColor: 'rgb(252, 69, 69)',
-					borderColor: 'rgb(252, 69, 69)',
-					borderWidth: 2,
-					fill: false,
-				},
-			],
-		},
-		options: {
-			scales: {
-				yAxes: [
+		this.pieChart = new Chart(uiPieChartContext, {
+			type: 'pie',
+			data: {
+				labels: ['Principal', 'Interest'],
+				datasets: [
 					{
-						stacked: true,
-						ticks: {
-							beginAtZero: true,
+						label: 'Loan Pie Chart',
+						data: [this.principal, this.totalInterest],
+						backgroundColor: ['rgb(35, 209, 96)', 'rgb(252, 69, 69)'],
+						borderColor: ['rgb(35, 209, 96)', 'rgb(252, 69, 69)'],
+						borderWidth: 1,
+					},
+				],
+			},
+			options: {
+				tooltips: {
+					callbacks: {
+						label: function(tooltipItem, data) {
+							const label = `${data.labels[tooltipItem.index]} : ${
+								uiCurrency.options[uiCurrency.selectedIndex].innerText
+							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							return label;
 						},
 					},
-				],
-				xAxes: [
+				},
+			},
+		});
+	}
+
+	table() {
+		const uiTableBody = document.querySelector('#uiTableBody'),
+			uiTableRepayTotal = document.querySelector('#uiTableRepayTotal'),
+			uiTableInterestTotal = document.querySelector('#uiTableInterestTotal'),
+			uiTablePrincipalPaidTotal = document.querySelector('#uiTablePrincipalPaidTotal');
+
+		uiTableBody.innerHTML = this.tBodyStr;
+
+		uiTableRepayTotal.innerText = formatCurrency(this.totalAmount);
+		uiTableInterestTotal.innerText = formatCurrency(this.totalInterest);
+		uiTablePrincipalPaidTotal.innerText = formatCurrency(this.principal);
+	}
+
+	lineChart() {
+		const uiLineChart = document.querySelector('#lineChart');
+		const uiLineChartContext = uiLineChart.getContext('2d');
+		const uiCurrency = document.querySelector('#uiCurrency');
+		uiLineChart.innerHTML = null;
+
+		this.lineChart = new Chart(uiLineChartContext, {
+			type: 'bar',
+			data: {
+				labels: this.timeArr,
+				datasets: [
 					{
-						stacked: true,
+						label: 'Principal',
+						data: this.yearlyPrincipalArr,
+						backgroundColor: 'rgb(35, 209, 96)',
+						borderColor: 'rgb(35, 209, 96)',
+						borderWidth: 2,
+					},
+					{
+						label: 'Interest',
+						data: this.yearlyInterestArr,
+						backgroundColor: 'rgb(252, 69, 69)',
+						borderColor: 'rgb(252, 69, 69)',
+						borderWidth: 2,
+						fill: false,
+					},
+					{
+						label: 'Total Amount',
+						data: this.yearlyTotalArr,
+						type: 'line',
+						backgroundColor: 'rgb(33, 150, 243)',
+						borderColor: 'rgb(33, 150, 243)',
+						borderWidth: 2,
+						fill: false,
+						pointBorderWidth: 4,
+						showline: true,
 					},
 				],
 			},
-			tooltips: {
-				callbacks: {
-					label: function(tooltipItem, data) {
-						const label = `${data.labels[tooltipItem.index]} : ${
-							uiCurrency.options[uiCurrency.selectedIndex].innerHTML
-						}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
-						return label;
+			options: {
+				scales: {
+					yAxes: [
+						{
+							stacked: true,
+							ticks: {
+								beginAtZero: true,
+							},
+						},
+					],
+					xAxes: [
+						{
+							stacked: true,
+						},
+					],
+				},
+				tooltips: {
+					callbacks: {
+						label: function(tooltipItem, data) {
+							const label = `${data.labels[tooltipItem.index]} : ${
+								uiCurrency.options[uiCurrency.selectedIndex].innerHTML
+							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							return label;
+						},
 					},
 				},
 			},
-		},
-	});
-
-	// Manipulating All Results DOM
-	setTimeout(() => {
-		uiEmi.value = formatCurrency(emi);
-		uiTotalInterest.value = formatCurrency(totalInterest);
-		uiTotalAmount.value = formatCurrency(totalAmount);
-		uiResultItem.forEach(e => e.classList.remove('is-hidden'));
-		uiSubmitBtn.classList.remove('is-loading');
-	}, 500);
-	setTimeout(() => {
-		document.querySelector('.uiResultItem').scrollIntoView({
-			behavior: 'smooth',
 		});
-	}, 1000);
+	}
+}
 
-	window.onscroll = () => {
-		if (window.pageYOffset > 50) {
-			uiScrollTop.classList.remove('is-hidden');
-			footer.classList.remove('is-invisible');
-		} else {
-			uiScrollTop.classList.add('is-hidden');
-			footer.classList.add('is-invisible');
-		}
-	};
-	console.timeEnd('time');
+// Form
+const form = document.querySelector('#form');
+form.addEventListener('submit', ev => {
+	console.time('form');
+	ev.preventDefault();
+
+	// UI Variables
+	const amount = document.querySelector('#uiAmount').value,
+		interest = document.querySelector('#uiInterest').value,
+		uiTenure = document.querySelector('#uiTenure'),
+		uiSubmitBtn = document.querySelector('#uiSubmitBtn');
+
+	// Validating Tenure
+	if (uiTenure.value > 30) {
+		alert('Please enter a valid number');
+		return false;
+	} else {
+		uiSubmitBtn.classList.add('is-loading');
+		uiTenure.blur();
+	}
+
+	// Intantiate EMI
+	const emiObj = new CalcEMI(amount, interest, uiTenure.value),
+		emiYearObj = emiObj.yearlyArr();
+
+	// Intantiate UI
+	const ui = new UI(
+		amount,
+		interest,
+		emiObj.emi(),
+		emiObj.totalAmount(),
+		emiObj.totalInterest(),
+		emiObj.timeArr(),
+		emiYearObj.yearlyPrincipalArr,
+		emiYearObj.yearlyInterestArr,
+		emiYearObj.yearlyTotalArr,
+		emiYearObj.tBodyStr,
+	);
+
+	// Details
+	ui.detailsCard();
+
+	// Pie Chart
+	ui.pieChart();
+
+	// Table
+	ui.table();
+
+	// Line Chart
+	ui.lineChart();
+
+	// Show Results
+	document.querySelectorAll('.uiResultItem').forEach(e => e.classList.remove('is-hidden'));
+	uiSubmitBtn.classList.remove('is-loading');
+
+	console.timeEnd('form');
 });
