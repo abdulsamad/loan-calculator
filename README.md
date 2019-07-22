@@ -1,3 +1,3 @@
 ## This is a Loan Calculator
 
-### Check the demo on [asamad05](https://asamad05.github.io/loan_calculator)
+### Click [Here](https://asamad05.github.io/loan_calculator) to see it Live
