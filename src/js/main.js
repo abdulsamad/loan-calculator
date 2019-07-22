@@ -84,14 +84,7 @@ class CalcEMI {
 				interestAmount = 0;
 				principalAmount = 0;
 			}
-			tBodyStr += `<tr>
-			<th>${i}</th>
-			<td>${formatCurrency(newBalance)}</td>
-			<td>${formatCurrency(this.emi())}</td>
-			<td>${formatCurrency(interestPaid)}</td>
-			<td>${formatCurrency(principalPaid)}</td>
-			<td>${formatCurrency((newBalance -= principalPaid))}</td>
-			</tr>`;
+			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(this.emi())}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency((newBalance -= principalPaid))}</td></tr>`;
 		}
 		// Returning Value
 		const arrObj = {
@@ -105,18 +98,7 @@ class CalcEMI {
 }
 
 class UI {
-	constructor(
-		principal,
-		interest,
-		emi,
-		totalAmount,
-		totalInterest,
-		timeArr,
-		yearlyPrincipalArr,
-		yearlyInterestArr,
-		yearlyTotalArr,
-		tBodyStr,
-	) {
+	constructor(principal, interest, emi, totalAmount, totalInterest, timeArr, yearlyPrincipalArr, yearlyInterestArr, yearlyTotalArr, tBodyStr) {
 		this.principal = principal;
 		this.interest = interest;
 		this.emi = emi;
@@ -171,9 +153,7 @@ class UI {
 				tooltips: {
 					callbacks: {
 						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${
-								uiCurrency.options[uiCurrency.selectedIndex].innerText
-							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
 							return label;
 						},
 					},
@@ -253,15 +233,35 @@ class UI {
 				tooltips: {
 					callbacks: {
 						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${
-								uiCurrency.options[uiCurrency.selectedIndex].innerHTML
-							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerHTML}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
 							return label;
 						},
 					},
 				},
 			},
 		});
+	}
+
+	footer() {
+		document.querySelector('#footer').classList.remove('is-hidden');
+		window.onscroll = () => {
+			if (window.pageYOffset > 50) {
+				document.querySelector('#uiScrollTop').classList.remove('is-hidden');
+			} else {
+				document.querySelector('#uiScrollTop').classList.add('is-hidden');
+			}
+		};
+	}
+
+	reset() {
+		this.pieChart.destroy();
+		this.lineChart.destroy();
+		document.body.scrollIntoView({
+			behavior: 'smooth',
+		});
+		document.querySelector('#footer').classList.add('is-hidden');
+		document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('fadeOut'));
+		setTimeout(() => document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('is-hidden')), 500);
 	}
 }
 
@@ -291,18 +291,7 @@ form.addEventListener('submit', ev => {
 		emiYearObj = emiObj.yearlyArr();
 
 	// Intantiate UI
-	const ui = new UI(
-		amount,
-		interest,
-		emiObj.emi(),
-		emiObj.totalAmount(),
-		emiObj.totalInterest(),
-		emiObj.timeArr(),
-		emiYearObj.yearlyPrincipalArr,
-		emiYearObj.yearlyInterestArr,
-		emiYearObj.yearlyTotalArr,
-		emiYearObj.tBodyStr,
-	);
+	const ui = new UI(amount, interest, emiObj.emi(), emiObj.totalAmount(), emiObj.totalInterest(), emiObj.timeArr(), emiYearObj.yearlyPrincipalArr, emiYearObj.yearlyInterestArr, emiYearObj.yearlyTotalArr, emiYearObj.tBodyStr);
 
 	// Details
 	ui.detailsCard();
@@ -316,9 +305,24 @@ form.addEventListener('submit', ev => {
 	// Line Chart
 	ui.lineChart();
 
+	// Reset
+	document.querySelector('#uiResetBtn').onclick = () => {
+		ui.reset();
+	};
+
 	// Show Results
-	document.querySelectorAll('.uiResultItem').forEach(e => e.classList.remove('is-hidden'));
-	uiSubmitBtn.classList.remove('is-loading');
+	setTimeout(() => {
+		// Toggle All Result
+		document.querySelectorAll('.uiResultItem').forEach(e => {
+			e.classList.remove('is-hidden', 'fadeOut');
+		});
+
+		// Footer
+		ui.footer();
+
+		// Remove Loading Class
+		uiSubmitBtn.classList.remove('is-loading');
+	}, 500);
 
 	console.timeEnd('form');
 });
