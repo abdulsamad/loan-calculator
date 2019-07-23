@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
@@ -71,7 +72,9 @@ module.exports = {
 				use: [
 					{
 						loader: 'file-loader',
-						options: {},
+						options: {
+							outputPath: 'assets',
+						},
 					},
 				],
 			},
@@ -125,6 +128,14 @@ module.exports = {
 					destination: path.join('assets', 'icons'),
 				},
 			],
+		}),
+		new SWPrecacheWebpackPlugin({
+			cacheId: 'loan_calculator',
+			dontCacheBustUrlsMatching: /\.\w{8}\./,
+			filename: 'service-worker.js',
+			minify: true,
+			navigateFallback: 'https://github.com/asamad05/loan_calculator',
+			staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/],
 		}),
 	],
 	optimization: {
