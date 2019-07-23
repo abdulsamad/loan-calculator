@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
 	devtool: 'eval',
