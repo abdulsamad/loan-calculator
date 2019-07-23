@@ -134,7 +134,7 @@ module.exports = {
 			dontCacheBustUrlsMatching: /\.\w{8}\./,
 			filename: 'service-worker.js',
 			minify: true,
-			navigateFallback: 'https://github.com/asamad05/loan_calculator',
+			navigateFallback: 'https://asamadgithub.io/loan_calculator',
 			staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/],
 		}),
 	],
