@@ -3,6 +3,7 @@ const HTMLWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 
 module.exports = {
 	devtool: 'eval',
@@ -93,6 +94,21 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].bundle.css',
 		}),
+		new WebappWebpackPlugin({
+			logo: './src/img/icon.png',
+			favicons: {
+				appName: 'Loan_Calculator',
+				appDescription: 'This Program help\'s you to Calculate Loan Repayment Amount',
+				developerName: 'Abdul Samad',
+				developerURL: null,
+				background: '#d3d3d3',
+				theme_color: '#333f44',
+				icons: {
+					coast: false,
+					yandex: false
+				}
+			}
+		})
 	],
 	optimization: {
 		minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
