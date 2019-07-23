@@ -1,0 +1,14 @@
+{
+  "version": "0.0.8",
+  "name": "Loan_Calculator",
+  "description": "This Program help's you to Calculate Loan Repayment Amount",
+  "icons": {
+    "60": "/assets/firefox_app_60x60.png",
+    "128": "/assets/firefox_app_128x128.png",
+    "512": "/assets/firefox_app_512x512.png"
+  },
+  "developer": {
+    "name": "Abdul Samad",
+    "url": null
+  }
+}

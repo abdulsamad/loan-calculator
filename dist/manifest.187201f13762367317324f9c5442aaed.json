@@ -1,0 +1,43 @@
+{
+  "icons": [
+    {
+      "src": "assets/icons/icon_512x512.f5a9c0c4e252f9e5ddb655ca39ae87d2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_384x384.493804f88af692731e8872501d1e795b.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_256x256.8cae5161bf3de6d6b39d247e81e6eac1.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_192x192.b911dd7e502e2dfa5bf8ac9635cc63c9.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_128x128.93bd5867fae5bec317e75793a5e61a7a.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_96x96.ad576324ec47ca28824f2411acb49b56.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "My Applications Friendly Name",
+  "short_name": "Application",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Description!",
+  "background_color": "#01579b",
+  "theme_color": "#01579b",
+  "theme-color": "#01579b"
+}
