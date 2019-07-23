@@ -98,17 +98,33 @@ module.exports = {
 			logo: './src/img/icon.png',
 			favicons: {
 				appName: 'Loan_Calculator',
-				appDescription: 'This Program help\'s you to Calculate Loan Repayment Amount',
+				appDescription: "This Program help's you to Calculate Loan Repayment Amount",
 				developerName: 'Abdul Samad',
 				developerURL: null,
 				background: '#d3d3d3',
 				theme_color: '#333f44',
 				icons: {
 					coast: false,
-					yandex: false
-				}
-			}
-		})
+					yandex: false,
+				},
+			},
+		}),
+		new WebpackPwaManifest({
+			name: 'My Applications Friendly Name',
+			short_name: 'Application',
+			description: 'Description!',
+			background_color: '#01579b',
+			theme_color: '#01579b',
+			'theme-color': '#01579b',
+			start_url: '/',
+			icons: [
+				{
+					src: path.resolve('src/img/icon.png'),
+					sizes: [96, 128, 192, 256, 384, 512],
+					destination: path.join('assets', 'icons'),
+				},
+			],
+		}),
 	],
 	optimization: {
 		minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
