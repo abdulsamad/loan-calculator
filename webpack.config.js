@@ -103,7 +103,7 @@ module.exports = {
 				developerName: 'Abdul Samad',
 				developerURL: null,
 				background: '#d3d3d3',
-				theme_color: '#333f44',
+				theme_color: '#009688',
 				icons: {
 					coast: false,
 					yandex: false,
@@ -111,17 +111,17 @@ module.exports = {
 			},
 		}),
 		new WebpackPwaManifest({
-			name: 'My Applications Friendly Name',
-			short_name: 'Application',
-			description: 'Description!',
-			background_color: '#01579b',
-			theme_color: '#01579b',
-			'theme-color': '#01579b',
+			name: 'Loan Calculator',
+			short_name: 'Loan Calculator',
+			description: "This Program help's you to Calculate Loan Repayment Amount",
+			background_color: '#c4c4c4',
+			theme_color: '#009688',
+			'theme-color': '#009688',
 			start_url: '/',
 			icons: [
 				{
 					src: path.resolve('src/img/icon.png'),
-					sizes: [96, 128, 192, 256, 384, 512],
+					sizes: [96, 128, 192],
 					destination: path.join('assets', 'icons'),
 				},
 			],

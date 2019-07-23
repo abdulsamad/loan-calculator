@@ -1,0 +1,28 @@
+{
+  "icons": [
+    {
+      "src": "assets/icons/icon_192x192.c465439bfd633fa4b6c4ee79fe5437a8.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_128x128.3c86677d86a5f68c354f920c54926357.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon_96x96.1295d5e38594cc066f98466f5f2d8fcf.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "Loan Calculator",
+  "short_name": "Loan Calculator",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "This Program help's you to Calculate Loan Repayment Amount",
+  "background_color": "#c4c4c4",
+  "theme_color": "#009688",
+  "theme-color": "#009688"
+}
