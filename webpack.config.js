@@ -4,8 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
 	devtool: 'eval',
@@ -100,42 +98,22 @@ module.exports = {
 		}),
 		new WebappWebpackPlugin({
 			logo: './src/img/icon.png',
+			publicPath: '/loan/',
 			favicons: {
 				appName: 'Loan_Calculator',
+				appShortName: 'LoanCalculator',
 				appDescription: "This Program help's you to Calculate Loan Repayment Amount",
 				developerName: 'Abdul Samad',
-				developerURL: null,
+				orientation: 'portrait',
 				background: '#d3d3d3',
 				theme_color: '#009688',
+				start_url: '/',
+				version: '0.9',
 				icons: {
 					coast: false,
 					yandex: false,
 				},
 			},
-		}),
-		new WebpackPwaManifest({
-			name: 'Loan Calculator',
-			short_name: 'Loan Calculator',
-			description: "This Program help's you to Calculate Loan Repayment Amount",
-			background_color: '#c4c4c4',
-			theme_color: '#009688',
-			'theme-color': '#009688',
-			start_url: '/',
-			icons: [
-				{
-					src: path.resolve('src/img/icon.png'),
-					sizes: [96, 128, 192],
-					destination: path.join('assets', 'icons'),
-				},
-			],
-		}),
-		new SWPrecacheWebpackPlugin({
-			cacheId: 'loan_calculator',
-			dontCacheBustUrlsMatching: /\.\w{8}\./,
-			filename: 'service-worker.js',
-			minify: true,
-			navigateFallback: 'https://asamad.tech/loan/',
-			staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/],
 		}),
 	],
 	optimization: {
