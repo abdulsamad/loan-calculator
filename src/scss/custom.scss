@@ -61,6 +61,12 @@ body {
 	}
 }
 
+.heading {
+	font-size: 3rem;
+	color: white;
+	text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #ccc, 3px 3px 0 #444, 4px 4px 0 #444, 5px 5px 0 #444, 6px 6px 0 #444;
+}
+
 // Helpers
 @mixin desktop {
 	@media (min-width: 840px) {

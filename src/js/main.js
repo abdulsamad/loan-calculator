@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
 	setTimeout(() => {
 		document.querySelector('#main').classList.remove('is-hidden');
 		document.querySelector('#loadElem').classList.add('is-hidden');
-	}, 1500);
+	}, 1000);
 });
 
 // Helper
