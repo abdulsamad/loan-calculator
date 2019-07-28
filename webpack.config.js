@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 module.exports = {
 	devtool: 'eval',
@@ -96,11 +97,18 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].bundle.css',
 		}),
+		new ServiceWorkerWebpackPlugin({
+			entry: path.join(__dirname, 'src/service-worker.js'),
+			filename: 'service-worker.js',
+			includes: ['**/*', '/loan/index.html'],
+		}),
 		new WebappWebpackPlugin({
 			logo: './src/img/icon.png',
-			publicPath: '/loan/',
+			publicPath: '/',
+			inject: true,
 			favicons: {
-				appName: 'Loan_Calculator',
+				path: 'assets/',
+				appName: 'LoanCalculator',
 				appShortName: 'LoanCalculator',
 				appDescription: "This Program help's you to Calculate Loan Repayment Amount",
 				developerName: 'Abdul Samad',
@@ -108,9 +116,15 @@ module.exports = {
 				background: '#d3d3d3',
 				theme_color: '#009688',
 				start_url: '/',
+				scope: '/',
 				version: '0.9',
 				icons: {
+					android: true,
+					appleIcon: true,
+					appleStartup: true,
 					coast: false,
+					firefox: true,
+					windows: true,
 					yandex: false,
 				},
 			},

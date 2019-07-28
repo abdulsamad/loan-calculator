@@ -4,8 +4,16 @@ import '../scss/style.scss';
 // JavaScript
 import Chart from 'chart.js';
 
+// Import Service Worker Webpack Plugin Runtime
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
 // Global
 window.addEventListener('load', () => {
+	// Register Service Worker
+	if ('serviceWorker' in navigator) {
+		const registration = runtime.register();
+	}
+	// Toggle Loading
 	setTimeout(() => {
 		document.querySelector('#main').classList.remove('is-hidden');
 		document.querySelector('#loadElem').classList.add('is-hidden');
@@ -242,17 +250,6 @@ class UI {
 		});
 	}
 
-	footer() {
-		document.querySelector('#footer').classList.remove('is-hidden');
-		window.onscroll = () => {
-			if (window.pageYOffset > 50) {
-				document.querySelector('#uiScrollTop').classList.remove('is-hidden');
-			} else {
-				document.querySelector('#uiScrollTop').classList.add('is-hidden');
-			}
-		};
-	}
-
 	reset() {
 		this.pieChart.destroy();
 		this.lineChart.destroy();
@@ -318,7 +315,7 @@ form.addEventListener('submit', ev => {
 		});
 
 		// Footer
-		ui.footer();
+		document.querySelector('#footer').classList.remove('is-hidden');
 
 		// Remove Loading Class
 		uiSubmitBtn.classList.remove('is-loading');
