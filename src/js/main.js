@@ -4,8 +4,14 @@ import '../scss/style.scss';
 // JavaScript
 import Chart from 'chart.js';
 
-// Import Service Worker Webpack Plugin Runtime
+// Service Worker Webpack Plugin Runtime
 import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
+// jsPDF
+import * as jsPDF from 'jspdf';
+
+// jsPDF AutoTable
+import 'jspdf-autotable';
 
 // Global
 window.addEventListener('load', () => {
@@ -250,15 +256,73 @@ class UI {
 		});
 	}
 
-	reset() {
-		this.pieChart.destroy();
-		this.lineChart.destroy();
-		document.body.scrollIntoView({
-			behavior: 'smooth',
-		});
-		document.querySelector('#footer').classList.add('is-hidden');
-		document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('fadeOut'));
-		setTimeout(() => document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('is-hidden')), 500);
+	scrollElem() {
+		window.onscroll = () => {
+			if (window.pageYOffset > 0) {
+				document.querySelector('#uiScrollTop').classList.remove('is-hidden');
+			} else {
+				document.querySelector('#uiScrollTop').classList.add('is-hidden');
+			}
+		};
+	}
+
+	generatePDF(selector, table) {
+		try {
+			document.querySelector(selector).addEventListener('click', function(e) {
+				e.preventDefault();
+				let doc = new jsPDF();
+				doc.autoTable({
+					html: table,
+					theme: 'grid',
+					useCss: false,
+					styles: { font: 'helvetica', halign: 'center' },
+					headStyles: { fillColor: [0, 150, 136] },
+					footStyles: { fillColor: [202, 202, 202], textColor: [48, 48, 48] },
+					margin: {
+						top: 10,
+						right: 10,
+						bottom: 10,
+						left: 10,
+					},
+					showFoot: 'lastPage',
+				});
+				doc.save('Monthwise-EMI-Report.pdf');
+			});
+		} catch (err) {
+			alert('Something Wrong Happened!');
+			return console.log('Error: ' + err);
+		}
+	}
+
+	reset(selector) {
+		document.querySelector(selector).onclick = () => {
+			this.pieChart.destroy();
+			this.lineChart.destroy();
+			document.body.scrollIntoView({
+				behavior: 'smooth',
+			});
+			document.querySelector('#footer').classList.add('is-hidden');
+			document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('fadeOut'));
+			setTimeout(() => document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('is-hidden')), 500);
+		};
+	}
+
+	showResults(delay) {
+		setTimeout(() => {
+			// Toggle All Result
+			document.querySelectorAll('.uiResultItem').forEach(e => {
+				e.classList.remove('is-hidden', 'fadeOut');
+			});
+
+			// Footer
+			document.querySelector('#footer').classList.remove('is-hidden');
+
+			// Remove Loading Class
+			uiSubmitBtn.classList.remove('is-loading');
+
+			//  Generate PDF
+			this.generatePDF('#uiDownloadBtn', '#monthwiseTable');
+		}, delay);
 	}
 }
 
@@ -302,24 +366,14 @@ form.addEventListener('submit', ev => {
 	// Line Chart
 	ui.lineChart();
 
+	// Reveal After Scroll Elements
+	ui.scrollElem();
+
 	// Reset
-	document.querySelector('#uiResetBtn').onclick = () => {
-		ui.reset();
-	};
+	ui.reset('#uiResetBtn');
 
-	// Show Results
-	setTimeout(() => {
-		// Toggle All Result
-		document.querySelectorAll('.uiResultItem').forEach(e => {
-			e.classList.remove('is-hidden', 'fadeOut');
-		});
-
-		// Footer
-		document.querySelector('#footer').classList.remove('is-hidden');
-
-		// Remove Loading Class
-		uiSubmitBtn.classList.remove('is-loading');
-	}, 500);
+	// Show Results and Setting PDF Generation
+	ui.showResults(500);
 
 	console.timeEnd('form');
 });

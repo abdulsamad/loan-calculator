@@ -213,29 +213,6 @@ body {
 
 /* Bulma */
 
-// Nav
-.navbar {
-	&.is-transparent {
-		background-color: transparent;
-		background-image: none;
-
-		.navbar-menu {
-			background-color: rgba(0, 0, 0, 0);
-		}
-
-		.navbar-item,
-		.navbar-link {
-			&:hover {
-				background-color: rgba(0, 0, 0, 0.2);
-			}
-		}
-	}
-
-	.heading {
-		text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #ccc, 3px 3px 0 #444, 4px 4px 0 #444, 5px 5px 0 #444, 6px 6px 0 #444;
-	}
-}
-
 // Button
 .button {
 	&.is-primary {
@@ -262,6 +239,29 @@ body {
 	&.h-100 {
 		transition: height 0.5s ease;
 		height: 100%;
+	}
+}
+
+// Nav
+.navbar {
+	&.is-transparent {
+		background-color: transparent;
+		background-image: none;
+
+		.navbar-menu {
+			background-color: rgba(0, 0, 0, 0);
+		}
+
+		.navbar-item,
+		.navbar-link {
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		}
+	}
+
+	.heading {
+		text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #ccc, 3px 3px 0 #444, 4px 4px 0 #444, 5px 5px 0 #444, 6px 6px 0 #444;
 	}
 }
 

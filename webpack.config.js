@@ -1,5 +1,6 @@
 const path = require('path');
 const HTMLWebPackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
@@ -116,7 +117,7 @@ module.exports = {
 				background: '#d3d3d3',
 				theme_color: '#009688',
 				start_url: '/',
-				scope: './',
+				scope: '/',
 				version: '0.9',
 				icons: {
 					android: true,

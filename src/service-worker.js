@@ -1,13 +1,13 @@
-const cacheName = 'loanCalc';
+const cacheName = 'loanCalc-v1';
 
 // Install Event
 self.addEventListener('install', e => {
-	console.log('Service Worker: Installed');
+	// console.log('Service Worker: Installed');
 	e.waitUntil(
 		caches
 			.open(cacheName)
 			.then(cache => {
-				console.log('Service Worker: Caching Files');
+				// console.log('Service Worker: Caching Files');
 				cache.addAll(serviceWorkerOption.assets);
 			})
 			.then(() => self.skipWaiting()),
@@ -16,7 +16,7 @@ self.addEventListener('install', e => {
 
 // Activate Event
 self.addEventListener('activate', e => {
-	console.log('Service Worker: Activated');
+	// console.log('Service Worker: Activated');
 	e.waitUntil(
 		caches.keys().then(cacheNames => {
 			return Promise.all(
@@ -33,6 +33,6 @@ self.addEventListener('activate', e => {
 
 // Call Fetch Event
 self.addEventListener('fetch', e => {
-	console.log('Service Worker: Fetching');
+	// console.log('Service Worker: Fetching');
 	e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
