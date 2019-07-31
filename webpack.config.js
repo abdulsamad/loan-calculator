@@ -104,7 +104,7 @@ module.exports = {
 		}),
 		new WebappWebpackPlugin({
 			logo: './src/img/icon.png',
-			publicPath: '/',
+			cache: true,
 			inject: true,
 			favicons: {
 				path: 'assets/',
@@ -116,7 +116,7 @@ module.exports = {
 				background: '#d3d3d3',
 				theme_color: '#009688',
 				start_url: '/',
-				scope: '/',
+				scope: './',
 				version: '0.9',
 				icons: {
 					android: true,
