@@ -11,13 +11,14 @@ $warning: #ffc107;
 $danger: #f44336;
 
 // Font
-$family-primary: 'Open Sans', Roboto, Sans-serif;
+$family-primary: 'Open Sans', Roboto, 'Segoe UI', Sans-serif;
+$body-font-size: calc(12px + 0.5vw);
 
 // Table
 $table-head-background-color: $primary;
 $table-head-cell-color: #fff;
 $table-foot-background-color: #cacaca;
-$table-foot-cell-color: #000;
+$table-foot-cell-color: #303030;
 
 // Shadow
 $card-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);

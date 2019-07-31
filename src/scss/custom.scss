@@ -9,110 +9,38 @@ body {
 	color: $white;
 }
 
-// Main
-.main {
-	min-height: 100vh;
-	max-width: 100vw;
-}
+/*Custom*/
 
-// Container
-.container {
-	z-index: 10;
-}
-
-// Loader
-.loadContainer {
-	height: 100vh;
-	width: 100vw;
-	text-align: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-}
-
-.loader {
-	@include loader;
-	height: 2rem;
-	width: 2rem;
-	border: 2px solid $white;
-	border-right-color: transparent;
-	border-top-color: transparent;
-}
-
-// Nav
-.navbar {
-	&.is-transparent {
-		background-color: transparent;
-		background-image: none;
-
-		.navbar-menu {
-			background-color: rgba(0, 0, 0, 0);
-		}
-
-		.navbar-item,
-		.navbar-link {
-			&:hover {
-				background-color: rgba(0, 0, 0, 0.2);
-			}
-		}
-	}
-}
-
-.heading {
-	font-size: 3rem;
-	color: white;
-	text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #ccc, 3px 3px 0 #444, 4px 4px 0 #444, 5px 5px 0 #444, 6px 6px 0 #444;
-}
-
-// Helpers
+// Mixins
 @mixin desktop {
 	@media (min-width: 840px) {
 		@content;
 	}
 }
 
-.is-paddingless-x {
-	padding-right: 0;
-	padding-left: 0;
+// Arrow
+.uiScrollTopArrow {
+	position: fixed;
+	z-index: 10;
+	bottom: 1.5em;
+	right: 1.5em;
 }
 
-.is-ripple {
-	position: relative;
-	overflow: hidden;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-}
-
-.is-ripple:after {
+.upArrow {
+	border: 4px solid white;
+	border-radius: 2px;
+	border-left: 0;
+	border-bottom: 0;
 	content: '';
 	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
+	height: 0.8rem;
+	margin-top: -0.33em;
 	pointer-events: none;
-	background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-	background-repeat: no-repeat;
-	background-position: 50%;
-	-webkit-transform: scale(10, 10);
-	transform: scale(10, 10);
-	opacity: 0;
-	-webkit-transition: opacity 1s, -webkit-transform 0.5s;
-	transition: opacity 1s, -webkit-transform 0.5s;
-	transition: transform 0.5s, opacity 1s;
-	transition: transform 0.5s, opacity 1s, -webkit-transform 0.5s;
-}
-
-.is-ripple:active:after {
-	-webkit-transform: scale(0, 0);
-	transform: scale(0, 0);
-	opacity: 0.3;
-	-webkit-transition: 0s;
-	transition: 0s;
+	position: absolute;
+	top: 50%;
+	transform: rotate(-45deg);
+	transform-origin: center;
+	width: 0.8rem;
 }
 
 // Background
@@ -136,58 +64,14 @@ body {
 	}
 }
 
-// Arrow
-.uiScrollTopArrow {
-	position: fixed;
+// Container
+.container {
 	z-index: 10;
-	bottom: 1.5em;
-	right: 1.5em;
-	-webkit-transform: rotate(180deg);
-	transform: rotate(180deg);
 }
 
-.arrow {
-	@include arrow($white);
-}
-
-// Button
-.button {
-	&.is-primary {
-		background-color: $primary;
-		background-image: -webkit-gradient(linear, left top, right top, from($primary), to(#42d3d3));
-		background-image: linear-gradient(to right, $primary, #42d3d3);
-		border: none;
-	}
-
-	&.is-danger {
-		background-color: $danger;
-		background-image: -webkit-gradient(linear, left top, right top, from($danger), to(#e27676));
-		background-image: linear-gradient(to right, $danger, #e27676);
-		border: none;
-	}
-}
-
-// Card
-.card {
-	background-image: -webkit-gradient(linear, left top, right top, from(#e0eafc), to(#cfdef3));
-	background-image: linear-gradient(to right, #e0eafc, #cfdef3);
-	border-radius: 10px;
-
-	&.h-100 {
-		height: 100%;
-	}
-}
-
-// Table Overflow
-.table-container {
-	-webkit-overflow-scrolling: touch;
-	overflow-x: auto;
-	max-width: 100%;
-
-	.table th,
-	.table td {
-		text-align: center;
-	}
+// Download Button
+.downloadBtnContainer {
+	margin-bottom: 2rem;
 }
 
 // Fade
@@ -254,5 +138,139 @@ body {
 		opacity: 0;
 		-webkit-transform: translateY(-10px);
 		transform: translateY(-10px);
+	}
+}
+
+// Helpers
+.is-paddingless-x {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.is-ripple {
+	position: relative;
+	overflow: hidden;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}
+
+.is-ripple:after {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+	background-repeat: no-repeat;
+	background-position: 50%;
+	-webkit-transform: scale(10, 10);
+	transform: scale(10, 10);
+	opacity: 0;
+	-webkit-transition: opacity 1s, -webkit-transform 0.5s;
+	transition: opacity 1s, -webkit-transform 0.5s;
+	transition: transform 0.5s, opacity 1s;
+	transition: transform 0.5s, opacity 1s, -webkit-transform 0.5s;
+}
+
+.is-ripple:active:after {
+	-webkit-transform: scale(0, 0);
+	transform: scale(0, 0);
+	opacity: 0.3;
+	-webkit-transition: 0s;
+	transition: 0s;
+}
+
+// Loader
+.loadContainer {
+	height: 100vh;
+	width: 100vw;
+	text-align: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+.loader {
+	@include loader;
+	height: 2rem;
+	width: 2rem;
+	border: 2px solid $white;
+	border-right-color: transparent;
+	border-top-color: transparent;
+}
+
+// Main
+.main {
+	min-height: 100vh;
+	max-width: 100vw;
+}
+
+/* Bulma */
+
+// Nav
+.navbar {
+	&.is-transparent {
+		background-color: transparent;
+		background-image: none;
+
+		.navbar-menu {
+			background-color: rgba(0, 0, 0, 0);
+		}
+
+		.navbar-item,
+		.navbar-link {
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		}
+	}
+
+	.heading {
+		text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #ccc, 3px 3px 0 #444, 4px 4px 0 #444, 5px 5px 0 #444, 6px 6px 0 #444;
+	}
+}
+
+// Button
+.button {
+	&.is-primary {
+		background-color: $primary;
+		background-image: -webkit-gradient(linear, left top, right top, from($primary), to(#42d3d3));
+		background-image: linear-gradient(to right, $primary, #42d3d3);
+		border: none;
+	}
+
+	&.is-danger {
+		background-color: $danger;
+		background-image: -webkit-gradient(linear, left top, right top, from($danger), to(#e27676));
+		background-image: linear-gradient(to right, $danger, #e27676);
+		border: none;
+	}
+}
+
+// Card
+.card {
+	background-image: -webkit-gradient(linear, left top, right top, from(#e0eafc), to(#cfdef3));
+	background-image: linear-gradient(to right, #e0eafc, #cfdef3);
+	border-radius: 10px;
+
+	&.h-100 {
+		transition: height 0.5s ease;
+		height: 100%;
+	}
+}
+
+// Table Overflow
+.table-container {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+	.table th,
+	.table td {
+		text-align: center;
 	}
 }
