@@ -95,6 +95,9 @@ module.exports = {
 			template: 'src/index.html',
 			filename: './index.html',
 		}),
+		new ScriptExtHtmlWebpackPlugin({
+			defaultAttribute: 'defer',
+		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].bundle.css',
 		}),
