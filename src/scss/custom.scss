@@ -152,35 +152,35 @@ body {
 	overflow: hidden;
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-}
 
-.is-ripple:after {
-	content: '';
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-	background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-	background-repeat: no-repeat;
-	background-position: 50%;
-	-webkit-transform: scale(10, 10);
-	transform: scale(10, 10);
-	opacity: 0;
-	-webkit-transition: opacity 1s, -webkit-transform 0.5s;
-	transition: opacity 1s, -webkit-transform 0.5s;
-	transition: transform 0.5s, opacity 1s;
-	transition: transform 0.5s, opacity 1s, -webkit-transform 0.5s;
-}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+		background-repeat: no-repeat;
+		background-position: 50%;
+		-webkit-transform: scale(10, 10);
+		transform: scale(10, 10);
+		opacity: 0;
+		-webkit-transition: opacity 1s, -webkit-transform 0.5s;
+		transition: opacity 1s, -webkit-transform 0.5s;
+		transition: transform 0.5s, opacity 1s;
+		transition: transform 0.5s, opacity 1s, -webkit-transform 0.5s;
+	}
 
-.is-ripple:active:after {
-	-webkit-transform: scale(0, 0);
-	transform: scale(0, 0);
-	opacity: 0.3;
-	-webkit-transition: 0s;
-	transition: 0s;
+	&:active:after {
+		-webkit-transform: scale(0, 0);
+		transform: scale(0, 0);
+		opacity: 0.3;
+		-webkit-transition: 0s;
+		transition: 0s;
+	}
 }
 
 // Loader
@@ -269,8 +269,12 @@ body {
 .table-container {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
-	.table th,
-	.table td {
-		text-align: center;
+	.table {
+		font-family: 'Roboto Condensed', 'Segoe UI', sans-serif;
+
+		th,
+		td {
+			text-align: center;
+		}
 	}
 }
