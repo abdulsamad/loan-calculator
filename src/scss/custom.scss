@@ -38,7 +38,9 @@ body {
 	pointer-events: none;
 	position: absolute;
 	top: 50%;
+	-webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
+	-webkit-transform-origin: center;
 	transform-origin: center;
 	width: 0.8rem;
 }
@@ -217,15 +219,15 @@ body {
 .button {
 	&.is-primary {
 		background-color: $primary;
-		background-image: -webkit-gradient(linear, left top, right top, from($primary), to(#42d3d3));
-		background-image: linear-gradient(to right, $primary, #42d3d3);
+		background-image: -webkit-gradient(linear, left top, right top, from($primary), to(lighten($primary, 12%)));
+		background-image: linear-gradient(to right, $primary, lighten($primary, 12%));
 		border: none;
 	}
 
 	&.is-danger {
 		background-color: $danger;
-		background-image: -webkit-gradient(linear, left top, right top, from($danger), to(#e27676));
-		background-image: linear-gradient(to right, $danger, #e27676);
+		background-image: -webkit-gradient(linear, left top, right top, from($danger), to(lighten($danger, 20%)));
+		background-image: linear-gradient(to right, $danger, lighten($danger, 20%));
 		border: none;
 	}
 }
@@ -237,6 +239,7 @@ body {
 	border-radius: 10px;
 
 	&.h-100 {
+		-webkit-transition: height 0.5s ease;
 		transition: height 0.5s ease;
 		height: 100%;
 	}
@@ -267,14 +270,17 @@ body {
 
 // Table Overflow
 .table-container {
+	-webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
 	.table {
-		font-family: 'Roboto Condensed', 'Segoe UI', sans-serif;
-
 		th,
 		td {
 			text-align: center;
+		}
+
+		td {
+			font-family: 'Roboto Condensed', 'Segoe UI', sans-serif;
 		}
 	}
 }

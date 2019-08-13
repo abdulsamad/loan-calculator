@@ -10,6 +10,9 @@ import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 // jsPDF
 import * as jsPDF from 'jspdf';
 
+// Importing Custom Font for jsPDF
+import font from '../font/base64_for_jspdf';
+
 // jsPDF AutoTable
 import 'jspdf-autotable';
 
@@ -98,7 +101,11 @@ class CalcEMI {
 				interestAmount = 0;
 				principalAmount = 0;
 			}
-			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(this.emi())}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency((newBalance -= principalPaid))}</td></tr>`;
+			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(
+				this.emi(),
+			)}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency(
+				(newBalance -= principalPaid),
+			)}</td></tr>`;
 		}
 		// Returning Value
 		const arrObj = {
@@ -112,7 +119,18 @@ class CalcEMI {
 }
 
 class UI {
-	constructor(principal, interest, emi, totalAmount, totalInterest, timeArr, yearlyPrincipalArr, yearlyInterestArr, yearlyTotalArr, tBodyStr) {
+	constructor(
+		principal,
+		interest,
+		emi,
+		totalAmount,
+		totalInterest,
+		timeArr,
+		yearlyPrincipalArr,
+		yearlyInterestArr,
+		yearlyTotalArr,
+		tBodyStr,
+	) {
 		this.principal = principal;
 		this.interest = interest;
 		this.emi = emi;
@@ -167,7 +185,9 @@ class UI {
 				tooltips: {
 					callbacks: {
 						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							const label = `${data.labels[tooltipItem.index]} : ${
+								uiCurrency.options[uiCurrency.selectedIndex].innerText
+							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
 							return label;
 						},
 					},
@@ -247,7 +267,9 @@ class UI {
 				tooltips: {
 					callbacks: {
 						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerHTML}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+							const label = `${data.labels[tooltipItem.index]} : ${
+								uiCurrency.options[uiCurrency.selectedIndex].innerHTML
+							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
 							return label;
 						},
 					},
@@ -266,17 +288,24 @@ class UI {
 		};
 	}
 
-	generatePDF(selector, table) {
+	generateTablePDF(selector, table) {
 		try {
-			document.querySelector(selector).addEventListener('click', function(e) {
-				e.preventDefault();
+			document.querySelector(selector).onclick = function() {
+				let callAddFont = function() {
+					this.addFileToVFS('robotoCondensed-normal.ttf', font);
+					this.addFont('robotoCondensed-normal.ttf', 'robotoCondensed', 'normal');
+				};
+				jsPDF.API.events.push(['addFonts', callAddFont]);
 				let doc = new jsPDF();
+				doc.setFont('robotoCondensed', 'normal');
+				doc.setFontSize(10);
+				doc.setTextColor('rgb(128,128,128)');
 				doc.autoTable({
 					html: table,
 					theme: 'grid',
 					useCss: false,
-					styles: { font: 'helvetica', halign: 'center' },
-					headStyles: { fillColor: [0, 150, 136] },
+					styles: { font: 'robotoCondensed', fontStyle: 'normal', halign: 'center' },
+					headStyles: { fontStyle: 'bold', fillColor: [0, 150, 136] },
 					footStyles: { fillColor: [202, 202, 202], textColor: [48, 48, 48] },
 					margin: {
 						top: 10,
@@ -286,8 +315,54 @@ class UI {
 					},
 					showFoot: 'lastPage',
 				});
+				doc.text(`- Created from (${window.location.href})`, 150, 285);
+				doc.text(`- By Abdul Samad`, 150, 290);
 				doc.save('Monthwise-EMI-Report.pdf');
-			});
+			};
+		} catch (err) {
+			alert('Something Wrong Happened!');
+			return console.log('Error: ' + err);
+		}
+	}
+
+	printData(selector, target) {
+		try {
+			document.querySelector(selector).onclick = function() {
+				let printBlock = document.querySelector(target);
+				let newWin = window.open('', 'Print Window');
+				newWin.document.write(`
+				<html>
+				<head>
+				<title>Created From (${window.location.href})</title>
+				<style>
+				table {
+					font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+					border-collapse: collapse;
+					border: 1px solid black;
+					width: 100%;
+					text-align: center;
+					page-break-inside: auto;
+				}
+				th,td {
+					border: 1px solid black;
+					text-align: center;
+					padding: 4pt;
+					page-break-inside:avoid;
+					page-break-after:auto;
+				}
+				thead {
+					display: table-header-group;
+				}
+				tfoot {
+					display: table-footer-group;
+				}
+				</style>
+				</head>
+				<body>${printBlock.outerHTML}</body>
+				</html>`);
+				newWin.print();
+				newWin.close();
+			};
 		} catch (err) {
 			alert('Something Wrong Happened!');
 			return console.log('Error: ' + err);
@@ -321,7 +396,10 @@ class UI {
 			uiSubmitBtn.classList.remove('is-loading');
 
 			//  Generate PDF
-			this.generatePDF('#uiDownloadBtn', '#monthwiseTable');
+			this.generateTablePDF('#uiDownloadBtn', '#monthwiseTable');
+
+			//  Generate PDF
+			this.printData('#uiPrintBtn', '#monthwiseTable');
 		}, delay);
 	}
 }
@@ -352,7 +430,18 @@ form.addEventListener('submit', ev => {
 		emiYearObj = emiObj.yearlyArr();
 
 	// Intantiate UI
-	const ui = new UI(amount, interest, emiObj.emi(), emiObj.totalAmount(), emiObj.totalInterest(), emiObj.timeArr(), emiYearObj.yearlyPrincipalArr, emiYearObj.yearlyInterestArr, emiYearObj.yearlyTotalArr, emiYearObj.tBodyStr);
+	const ui = new UI(
+		amount,
+		interest,
+		emiObj.emi(),
+		emiObj.totalAmount(),
+		emiObj.totalInterest(),
+		emiObj.timeArr(),
+		emiYearObj.yearlyPrincipalArr,
+		emiYearObj.yearlyInterestArr,
+		emiYearObj.yearlyTotalArr,
+		emiYearObj.tBodyStr,
+	);
 
 	// Details
 	ui.detailsCard();
