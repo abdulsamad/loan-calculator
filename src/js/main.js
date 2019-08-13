@@ -17,6 +17,7 @@ import font from '../font/base64_for_jspdf';
 import 'jspdf-autotable';
 
 // Global
+const form = document.querySelector('#form');
 window.addEventListener('load', () => {
 	// Register Service Worker
 	if ('serviceWorker' in navigator) {
@@ -42,12 +43,12 @@ function formatCurrency(val) {
 
 // Classes
 class CalcEMI {
-	constructor(amount, interest, tenure) {
+	constructor(amount, interest, tenure, tenureType) {
 		this.amount = parseFloat(amount).toFixed(2);
 		this.interest = parseFloat(interest);
 		this.monthlyInterest = this.interest / 100 / 12;
-		this.tenure = parseFloat(tenure);
-		this.totalMonths = parseFloat(tenure) * 12;
+		this.tenure = tenureType === 'year' ? parseFloat(tenure) : parseFloat(tenure / 12);
+		this.totalMonths = tenureType === 'month' ? parseFloat(tenure) : parseFloat(tenure * 12);
 	}
 
 	emi() {
@@ -66,7 +67,7 @@ class CalcEMI {
 
 	timeArr() {
 		const str = [];
-		for (let i = 0; i < this.tenure; i++) {
+		for (let i = 0; i < Math.ceil(this.tenure); i++) {
 			str.push('Year ' + (i + 1));
 		}
 		return str;
@@ -305,7 +306,7 @@ class UI {
 					theme: 'grid',
 					useCss: false,
 					styles: { font: 'robotoCondensed', fontStyle: 'normal', halign: 'center' },
-					headStyles: { fontStyle: 'bold', fillColor: [0, 150, 136] },
+					headStyles: { font: 'helvetica', fontStyle: 'bold', fillColor: [0, 150, 136] },
 					footStyles: { fillColor: [202, 202, 202], textColor: [48, 48, 48] },
 					margin: {
 						top: 10,
@@ -315,8 +316,8 @@ class UI {
 					},
 					showFoot: 'lastPage',
 				});
-				doc.text(`- Created from (${window.location.href})`, 150, 285);
-				doc.text(`- By Abdul Samad`, 150, 290);
+				doc.text(`- Created from (${window.location.href})`, 145, 285);
+				doc.text(`- By Abdul Samad`, 145, 290);
 				doc.save('Monthwise-EMI-Report.pdf');
 			};
 		} catch (err) {
@@ -405,7 +406,6 @@ class UI {
 }
 
 // Form
-const form = document.querySelector('#form');
 form.addEventListener('submit', ev => {
 	console.time('form');
 	ev.preventDefault();
@@ -414,11 +414,12 @@ form.addEventListener('submit', ev => {
 	const amount = document.querySelector('#uiAmount').value,
 		interest = document.querySelector('#uiInterest').value,
 		uiTenure = document.querySelector('#uiTenure'),
+		uiTenureType = document.querySelector('#uiTenureType').value,
 		uiSubmitBtn = document.querySelector('#uiSubmitBtn');
 
 	// Validating Tenure
-	if (uiTenure.value > 30) {
-		alert('Please enter a valid number');
+	if ((uiTenureType === 'year' && uiTenure.value > 30) || (uiTenureType === 'month' && uiTenure.value > 360)) {
+		alert('Please enter a valid tenure');
 		return false;
 	} else {
 		uiSubmitBtn.classList.add('is-loading');
@@ -426,7 +427,7 @@ form.addEventListener('submit', ev => {
 	}
 
 	// Intantiate EMI
-	const emiObj = new CalcEMI(amount, interest, uiTenure.value),
+	const emiObj = new CalcEMI(amount, interest, uiTenure.value, uiTenureType),
 		emiYearObj = emiObj.yearlyArr();
 
 	// Intantiate UI

@@ -118,13 +118,16 @@
 												<div class="column">
 													<div class="field has-addons">
 														<div class="control is-expanded">
-															<input class="input" id="uiTenure" type="number" placeholder="10" min="0.1" max="30"
-																step="0.1" required />
+															<input class="input" id="uiTenure" type="number" placeholder="10" min="1" max="360"
+																step="1" required />
 														</div>
 														<div class="control">
-															<button class="button is-static has-text-weight-bold">
-																Years
-															</button>
+															<div class="select">
+																<select id="uiTenureType" aria-label="tenureType">
+																	<option value="year" selected>Years</option>
+																	<option value="month">Months</option>
+																</select>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -245,7 +248,7 @@
 							Month Wise
 						</h2>
 						<div class="table-container" id="table-container">
-							<table class="table is-bordered is-hoverable is-striped is-fullwidth" id="monthwiseTable">
+							<table class="table is-bordered is-hoverable is-scrollable is-striped is-fullwidth" id="monthwiseTable">
 								<thead>
 									<tr>
 										<th>Month</th>
