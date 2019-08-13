@@ -18,6 +18,12 @@ body {
 	}
 }
 
+@mixin mobile {
+	@media (max-width: 786px) {
+		@content;
+	}
+}
+
 // Arrow
 .uiScrollTopArrow {
 	position: fixed;
@@ -282,5 +288,9 @@ body {
 		td {
 			font-family: 'Roboto Condensed', 'Segoe UI', sans-serif;
 		}
+	}
+
+	@include mobile() {
+		font-size: 1rem;
 	}
 }
