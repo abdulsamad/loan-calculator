@@ -44,7 +44,7 @@
 						<div class="card h-100">
 							<div class="card-content">
 								<div class="content">
-									<form id="form" aria-label="form">
+									<form class="is-mainForm" id="form" aria-label="form">
 										<div class="field">
 											<div class="columns is-mobile">
 												<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
@@ -60,8 +60,8 @@
 													<div class="field">
 														<div class="field has-addons">
 															<div class="control is-expanded">
-																<input class="input" id="uiAmount" type="number" placeholder="Enter the Amount" min="1"
-																	max="10000000000" required />
+																<input class="input is-family-secondary" id="uiAmount" type="number"
+																	placeholder="Enter the Amount" min="1" max="10000000000" required />
 															</div>
 															<div class="control">
 																<div class="select">
@@ -92,8 +92,8 @@
 												<div class="column">
 													<div class="field has-addons">
 														<div class="control is-expanded">
-															<input class="input" id="uiInterest" type="number" placeholder="Interest Percent"
-																min="0.01" max="99.99" step="0.01" required />
+															<input class="input is-family-secondary" id="uiInterest" type="number"
+																placeholder="Interest Percent" min="0.01" max="99.99" step="0.01" required />
 														</div>
 														<div class="control">
 															<button class="button is-static has-text-weight-bold">
@@ -118,8 +118,8 @@
 												<div class="column">
 													<div class="field has-addons">
 														<div class="control is-expanded">
-															<input class="input" id="uiTenure" type="number" placeholder="10" min="1" max="360"
-																step="1" required />
+															<input class="input is-family-secondary" id="uiTenure" type="number" placeholder="10"
+																min="1" max="360" step="1" required />
 														</div>
 														<div class="control">
 															<div class="select">
@@ -155,7 +155,7 @@
 					<div class="column is-4 uiResultItem is-hidden fadeDown">
 						<div class="card h-100">
 							<header class="card-header">
-								<h2 class="card-header-title is-size-5 is-serif">Summary</h2>
+								<h2 class="card-header-title is-size-5">Summary</h2>
 							</header>
 							<div class="card-content">
 								<div class="content">
@@ -174,7 +174,8 @@
 												<div class="column">
 													<div class="field">
 														<div class="control">
-															<input class="input" id="uiEmi" type="text" placeholder="0" disabled />
+															<input class="input is-family-secondary" id="uiEmi" type="text" placeholder="0"
+																disabled />
 														</div>
 													</div>
 												</div>
@@ -194,8 +195,8 @@
 												<div class="column">
 													<div class="field">
 														<div class="control">
-															<input class="input has-font-weight-semi-bold" id="uiTotalInterest" type="text"
-																placeholder="0" disabled />
+															<input class="input is-family-secondary" id="uiTotalInterest" type="text" placeholder="0"
+																disabled />
 														</div>
 													</div>
 												</div>
@@ -215,7 +216,8 @@
 												<div class="column">
 													<div class="field">
 														<div class="control">
-															<input class="input" id="uiTotalAmount" type="text" placeholder="0" disabled />
+															<input class="input is-family-secondary" id="uiTotalAmount" type="text" placeholder="0"
+																disabled />
 														</div>
 													</div>
 												</div>
@@ -241,15 +243,15 @@
 			</section>
 
 			<!-- Section 2 -->
-			<section class="section">
+			<section class="section section-2">
 				<div class="columns">
 					<div class="column is-6 uiResultItem is-hidden fadeDown">
 						<h2 class="title is-4 has-text-white-bis has-text-centered">
 							Month Wise
 						</h2>
-						<div class="table-container" id="table-container">
-							<table class="table is-bordered is-hoverable is-scrollable is-striped is-fullwidth" id="monthwiseTable">
-								<thead>
+						<div class="emi-table-container table-container" id="table-container">
+							<table class="emi-table table is-bordered is-hoverable is-striped is-fullwidth" id="monthwiseTable">
+								<thead class="thead">
 									<tr>
 										<th>Month</th>
 										<th>Principal</th>
@@ -259,7 +261,7 @@
 										<th>Balance</th>
 									</tr>
 								</thead>
-								<tbody id="uiTableBody"></tbody>
+								<tbody class="tbody" id="uiTableBody"></tbody>
 								<tfoot>
 									<tr>
 										<th>Total</th>
@@ -274,14 +276,16 @@
 						</div>
 						<div class="columns downloadBtnContainer">
 							<div class="column">
-								<button class="button is-primary is-fullwidth has-text-white-bis downloadBtn" id="uiDownloadBtn">
+								<button class="button is-primary is-ripple is-fullwidth has-text-white-bis downloadBtn"
+									id="uiDownloadBtn">
 									<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#fff" viewBox="0 0 24 24">
-										<path d="M16 11h5l-9 10-9-10h5v-11h8v11zm1 11h-10v2h10v-2z" /></svg>
+										<path d="M16 11h5l-9 10-9-10h5v-11h8v11zm1 11h-10v2h10v-2z" />
+									</svg>
 									&nbsp;&nbsp;Download EMI Data PDF
 								</button>
 							</div>
-							<div class="column">
-								<button class="button is-primary is-fullwidth has-text-white-bis downloadBtn" id="uiPrintBtn">
+							<div class="column is-hidden-touch">
+								<button class="button is-primary is-ripple is-fullwidth has-text-white-bis downloadBtn" id="uiPrintBtn">
 									<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#fff" viewBox="0 0 24 24">
 										<path
 											d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
@@ -319,9 +323,15 @@
 			<footer class="footer is-hidden" id="footer">
 				<div class="content has-text-centered">
 					<h3 class="is-size-6">
-						<strong class="has-text-white-bis is-serif">Loan Calculator</strong> by <a class="link"
-							href="https://asamad.tech/loan">Abdul Samad</a>. The source code is available on
-						<a href="https://github.com/asamad05/loan_calculator" target="_blank">github</a>
+						<strong class="has-text-white-bis">Loan Calculator</strong> by <a class="has-text-dark" href="#">Abdul
+							Samad</a>. The source code is available on
+						<a class="tag" href="https://github.com/asamad05/loan_calculator" target="_blank" rel="noopener">
+							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+								<path
+									d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+							</svg>
+							&nbsp;GitHub
+						</a>
 					</h3>
 				</div>
 			</footer>

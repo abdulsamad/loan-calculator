@@ -102,12 +102,7 @@ class CalcEMI {
 				interestAmount = 0;
 				principalAmount = 0;
 			}
-			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(
-				this.emi(),
-			)}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency(
-				(newBalance -= principalPaid),
-			)}</td></tr>`;
-		}
+			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(this.emi())}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency((newBalance -= principalPaid))}</td></tr>`;}
 		// Returning Value
 		const arrObj = {
 			yearlyInterestArr: yearlyInterestArr,

@@ -12,10 +12,11 @@ $danger: #f44336;
 
 // Font
 $family-primary: Merriweather, 'Segoe UI', Sans-serif;
-$body-font-size: calc(12px + 0.5vw);
+$family-secondary: 'Roboto Condensed', sans-serif;
+$body-font-size: calc(12px + 0.5vmax);
 
 // Table
-$table-head-background-color: $primary;
+$table-head-background-color: #fff;
 $table-head-cell-color: #fff;
 $table-foot-background-color: #cacaca;
 $table-foot-cell-color: #303030;
