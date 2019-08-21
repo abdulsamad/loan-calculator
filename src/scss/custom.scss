@@ -323,6 +323,12 @@ footer .content {
 		-webkit-box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 	}
+
+	@include mobile() {
+		.emi-table-container {
+			max-height: 80vh;
+		}
+	}
 }
 
 /* Bulma */
