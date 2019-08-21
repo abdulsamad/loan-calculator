@@ -1,7 +1,7 @@
 // CSS
 import '../scss/style.scss';
 
-// JavaScript
+// Chartjs
 import Chart from 'chart.js';
 
 // Service Worker Webpack Plugin Runtime
@@ -10,7 +10,7 @@ import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 // jsPDF
 import * as jsPDF from 'jspdf';
 
-// Importing Custom Font for jsPDF
+// Custom Font for jsPDF
 import font from '../font/base64_for_jspdf';
 
 // jsPDF AutoTable
@@ -124,6 +124,7 @@ class UI {
 		principal,
 		interest,
 		emi,
+		totalMonths,
 		totalAmount,
 		totalInterest,
 		timeArr,
@@ -135,6 +136,7 @@ class UI {
 		this.principal = principal;
 		this.interest = interest;
 		this.emi = emi;
+		this.totalMonths = totalMonths;
 		this.totalAmount = totalAmount;
 		this.totalInterest = totalInterest;
 		this.timeArr = timeArr;
@@ -171,7 +173,7 @@ class UI {
 		this.pieChart = new Chart(uiPieChartContext, {
 			type: 'pie',
 			data: {
-				labels: ['Principal', 'Interest'],
+				labels: ['Total Principal', 'Total Interest'],
 				datasets: [
 					{
 						label: 'Loan Pie Chart',
@@ -185,12 +187,11 @@ class UI {
 			options: {
 				tooltips: {
 					callbacks: {
-						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${
-								uiCurrency.options[uiCurrency.selectedIndex].innerText
-							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
+						//prettier-ignore
+						label: (tooltipItem, data) => {
+							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}  (${((parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]) / this.totalAmount) * 100).toFixed(2)}%)`;
 							return label;
-						},
+						}
 					},
 				},
 			},
@@ -212,71 +213,76 @@ class UI {
 
 	lineChart() {
 		const uiLineChart = document.querySelector('#lineChart');
+		const uiLineChartContainer = document.querySelector('.uiLineChartContainer');
 		const uiLineChartContext = uiLineChart.getContext('2d');
 		const uiCurrency = document.querySelector('#uiCurrency');
 		uiLineChart.innerHTML = null;
 
-		this.lineChart = new Chart(uiLineChartContext, {
-			type: 'bar',
-			data: {
-				labels: this.timeArr,
-				datasets: [
-					{
-						label: 'Principal',
-						data: this.yearlyPrincipalArr,
-						backgroundColor: 'rgb(35, 209, 96)',
-						borderColor: 'rgb(35, 209, 96)',
-						borderWidth: 2,
-					},
-					{
-						label: 'Interest',
-						data: this.yearlyInterestArr,
-						backgroundColor: 'rgb(252, 69, 69)',
-						borderColor: 'rgb(252, 69, 69)',
-						borderWidth: 2,
-						fill: false,
-					},
-					{
-						label: 'Total Amount',
-						data: this.yearlyTotalArr,
-						type: 'line',
-						backgroundColor: 'rgb(33, 150, 243)',
-						borderColor: 'rgb(33, 150, 243)',
-						borderWidth: 2,
-						fill: false,
-						pointBorderWidth: 4,
-						showline: true,
-					},
-				],
-			},
-			options: {
-				scales: {
-					yAxes: [
+		if (this.totalMonths < 12) {
+			uiLineChartContainer.classList.add('is-hidden');
+		} else {
+			uiLineChartContainer.classList.remove('is-hidden');
+			this.lineChart = new Chart(uiLineChartContext, {
+				type: 'bar',
+				data: {
+					labels: this.timeArr,
+					datasets: [
 						{
-							stacked: true,
-							ticks: {
-								beginAtZero: true,
+							label: 'Principal',
+							data: this.yearlyPrincipalArr,
+							backgroundColor: 'rgb(35, 209, 96)',
+							borderColor: 'rgb(35, 209, 96)',
+							borderWidth: 2,
+						},
+						{
+							label: 'Interest',
+							data: this.yearlyInterestArr,
+							backgroundColor: 'rgb(252, 69, 69)',
+							borderColor: 'rgb(252, 69, 69)',
+							borderWidth: 2,
+							fill: false,
+						},
+						{
+							label: 'Total Amount',
+							data: this.yearlyTotalArr,
+							type: 'line',
+							backgroundColor: 'rgb(33, 150, 243)',
+							borderColor: 'rgb(33, 150, 243)',
+							borderWidth: 2,
+							fill: false,
+							pointBorderWidth: 4,
+							showline: true,
+						},
+					],
+				},
+				options: {
+					scales: {
+						yAxes: [
+							{
+								stacked: true,
+								ticks: {
+									beginAtZero: true,
+								},
 							},
-						},
-					],
-					xAxes: [
-						{
-							stacked: true,
-						},
-					],
-				},
-				tooltips: {
-					callbacks: {
-						label: function(tooltipItem, data) {
-							const label = `${data.labels[tooltipItem.index]} : ${
-								uiCurrency.options[uiCurrency.selectedIndex].innerHTML
-							}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}`;
-							return label;
+						],
+						xAxes: [
+							{
+								stacked: true,
+							},
+						],
+					},
+					tooltips: {
+						callbacks: {
+							//prettier-ignore
+							label: (tooltipItem, data) => {
+								const label = `${data.datasets[tooltipItem.datasetIndex].label}: ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}  (${((parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]) / this.totalAmount) * 100).toFixed(2)}%)`;
+								return label;
+							}
 						},
 					},
 				},
-			},
-		});
+			});
+		}
 	}
 
 	scrollElem() {
@@ -373,7 +379,9 @@ class UI {
 	reset(selector) {
 		document.querySelector(selector).onclick = () => {
 			this.pieChart.destroy();
-			this.lineChart.destroy();
+			if (document.querySelector('.uiLineChartContainer').classList.contains('is-hidden') === false) {
+				this.lineChart.destroy();
+			}
 			document.body.scrollIntoView({
 				behavior: 'smooth',
 			});
@@ -407,7 +415,6 @@ class UI {
 
 // Form
 form.addEventListener('submit', ev => {
-	console.time('form');
 	ev.preventDefault();
 
 	// UI Variables
@@ -419,7 +426,7 @@ form.addEventListener('submit', ev => {
 
 	// Validating Tenure
 	if ((uiTenureType === 'year' && uiTenure.value > 30) || (uiTenureType === 'month' && uiTenure.value > 360)) {
-		alert('Please enter a valid tenure');
+		alert('Please enter a valid tenure (Maximum 30 Years or 360 Months)');
 		return false;
 	} else {
 		uiSubmitBtn.classList.add('is-loading');
@@ -435,6 +442,7 @@ form.addEventListener('submit', ev => {
 		amount,
 		interest,
 		emiObj.emi(),
+		emiObj.totalMonths,
 		emiObj.totalAmount(),
 		emiObj.totalInterest(),
 		emiObj.timeArr(),
@@ -464,6 +472,4 @@ form.addEventListener('submit', ev => {
 
 	// Show Results and Setting PDF Generation
 	ui.showResults(500);
-
-	console.timeEnd('form');
 });
