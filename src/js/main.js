@@ -322,7 +322,7 @@ class UI {
 					},
 					showFoot: 'lastPage',
 				});
-				doc.text(`- Created from (${window.location.href})`, 145, 285);
+				doc.text(`- Created from (${document.URL})`, 145, 285);
 				doc.text(`- By Abdul Samad`, 145, 290);
 				doc.save('Monthwise-EMI-Report.pdf');
 			};
@@ -340,7 +340,7 @@ class UI {
 				newWin.document.write(`
 				<html>
 				<head>
-				<title>Created From (${window.location.href})</title>
+				<title>Created From (${document.URL})</title>
 				<style>
 				table {
 					font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

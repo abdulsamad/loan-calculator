@@ -44,94 +44,62 @@
 						<div class="card h-100">
 							<div class="card-content">
 								<div class="content">
-									<form class="is-mainForm" id="form" aria-label="form">
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiAmount" class="label button is-white is-size-6 is-paddingless-x">
-																Amount
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field">
-														<div class="field has-addons">
-															<div class="control is-expanded">
-																<input class="input is-family-secondary" id="uiAmount" type="number"
-																	placeholder="Enter the Amount" min="1" max="10000000000" required />
-															</div>
-															<div class="control">
-																<div class="select">
-																	<select id="uiCurrency" aria-label="currencyType">
-																		<option data-currency="EUR" value="en-EUR">&#163;</option>
-																		<option data-currency="USD" value="en-US" selected>&#36;</option>
-																		<option data-currency="INR" value="en-IN">&#8377;</option>
-																		<option data-currency="JPY" value="en-JP">&#0165;</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+									<form class="form form-1" id="form" aria-label="form">
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiAmount" class="label button is-white is-size-6">
+													Amount
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiAmount" type="number"
+													placeholder="Enter the Amount" min="1" max="1000000000000" required />
+											</p>
+											<p class="control">
+												<span class="select">
+													<select id="uiCurrency" aria-label="currencyType">
+														<option data-currency="EUR" value="en-EUR">&#163;</option>
+														<option data-currency="USD" value="en-US" selected>&#36;</option>
+														<option data-currency="INR" value="en-IN">&#8377;</option>
+														<option data-currency="JPY" value="en-JP">&#0165;</option>
+													</select>
+												</span>
+											</p>
 										</div>
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiInterest" class="label button is-white is-size-6 is-paddingless-x">
-																Interest
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field has-addons">
-														<div class="control is-expanded">
-															<input class="input is-family-secondary" id="uiInterest" type="number"
-																placeholder="Interest Percent" min="0.01" max="99.99" step="0.01" required />
-														</div>
-														<div class="control">
-															<button class="button is-static has-text-weight-bold">
-																%
-															</button>
-														</div>
-													</div>
-												</div>
-											</div>
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiInterest" class="label button is-white is-size-6">
+													Interest
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiInterest" type="number"
+													placeholder="Interest Percent" min="0.01" max="99.99" step="0.01" required />
+											</p>
+											<p class="control">
+												<button class="button is-static has-text-weight-bold">
+													%
+												</button>
+											</p>
 										</div>
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-quarter-desktop is-one-third-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiTenure" class="label button is-white is-size-6 is-paddingless-x">
-																Tenure
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field has-addons">
-														<div class="control is-expanded">
-															<input class="input is-family-secondary" id="uiTenure" type="number" placeholder="10"
-																min="1" max="360" step="1" required />
-														</div>
-														<div class="control">
-															<div class="select">
-																<select id="uiTenureType" aria-label="tenureType">
-																	<option value="year" selected>Years</option>
-																	<option value="month">Months</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiTenure" class="label button is-white is-size-6">
+													Tenure
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiTenure" type="number" placeholder="10" min="1"
+													max="360" step="1" required />
+											</p>
+											<p class="control">
+												<span class="select">
+													<select id="uiTenureType" aria-label="tenureType">
+														<option value="year" selected>Years</option>
+														<option value="month">Months</option>
+													</select>
+												</span>
+											</p>
 										</div>
 										<div class="field is-grouped is-grouped-centered">
 											<div class="control">
@@ -159,69 +127,38 @@
 							</header>
 							<div class="card-content">
 								<div class="content">
-									<form class="form-2">
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiEmi" class="label button is-white is-size-6 is-paddingless-x">
-																Monthly EMI
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field">
-														<div class="control">
-															<input class="input is-family-secondary" id="uiEmi" type="text" placeholder="0"
-																disabled />
-														</div>
-													</div>
-												</div>
-											</div>
+									<form class="form form-2" id="form-2">
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiEmi" class="label button is-white is-size-6">
+													Monthly EMI
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiEmi" type="text" placeholder="0" disabled />
+											</p>
 										</div>
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiTotalInterest" class="label button is-white is-size-6 is-paddingless-x">
-																Total Interest
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field">
-														<div class="control">
-															<input class="input is-family-secondary" id="uiTotalInterest" type="text" placeholder="0"
-																disabled />
-														</div>
-													</div>
-												</div>
-											</div>
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiTotalInterest" class="label button is-white is-size-6">
+													Total Interest
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiTotalInterest" type="text" placeholder="0"
+													disabled />
+											</p>
 										</div>
-										<div class="field">
-											<div class="columns is-mobile">
-												<div class="column is-one-third-desktop is-half-mobile is-paddingless-x">
-													<div class="field">
-														<div class="control">
-															<label for="uiTotalAmount" class="label button is-white is-size-6 is-paddingless-x">
-																Total Amount
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="column">
-													<div class="field">
-														<div class="control">
-															<input class="input is-family-secondary" id="uiTotalAmount" type="text" placeholder="0"
-																disabled />
-														</div>
-													</div>
-												</div>
-											</div>
+										<div class="field has-addons">
+											<p class="control">
+												<label for="uiTotalAmount" class="label button is-white is-size-6">
+													Total Amount
+												</label>
+											</p>
+											<p class="control is-expanded">
+												<input class="input is-family-secondary" id="uiTotalAmount" type="text" placeholder="0"
+													disabled />
+											</p>
 										</div>
 									</form>
 								</div>

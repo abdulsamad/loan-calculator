@@ -187,17 +187,51 @@ footer .content {
 	}
 }
 
+// Form
+#form {
+	.button.label {
+		border-radius: 0.38rem;
+	}
+
+	.label {
+		margin-right: 1rem;
+	}
+
+	.input[type='number'] {
+		border-top-left-radius: 0.38rem;
+		border-bottom-left-radius: 0.38rem;
+	}
+
+	@include mobile {
+		.label {
+			margin-right: 0.5rem;
+		}
+	}
+}
+
 // Form 2
-.form-2 .input {
-	cursor: text;
+#form-2 {
+	.button.label {
+		border-radius: 0.38rem;
+	}
+
+	.label {
+		margin-right: 1rem;
+	}
+
+	.input {
+		border-radius: 0.38rem;
+		cursor: text;
+	}
+
+	@include mobile {
+		.label {
+			margin-right: 0.5rem;
+		}
+	}
 }
 
 // Helpers
-.is-paddingless-x {
-	padding-right: 0;
-	padding-left: 0;
-}
-
 .is-ripple {
 	position: relative;
 	overflow: hidden;
