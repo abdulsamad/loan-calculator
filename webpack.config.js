@@ -121,7 +121,7 @@ module.exports = {
 				theme_color: '#009688',
 				start_url: '/',
 				scope: '/',
-				version: '0.9',
+				version: '1.0.0',
 				icons: {
 					android: true,
 					appleIcon: true,

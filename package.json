@@ -1,6 +1,6 @@
 {
 	"name": "loan_calculator",
-	"version": "0.0.9",
+	"version": "1.0.0",
 	"description": "This Program help's you to Calculate Loan Repayment Amount",
 	"main": "src/js/main.js",
 	"scripts": {

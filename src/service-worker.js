@@ -1,4 +1,4 @@
-const cacheName = 'loanCalc-v1';
+const cacheName = 'loanCalc-v1.0.1';
 
 // Install Event
 self.addEventListener('install', e => {
