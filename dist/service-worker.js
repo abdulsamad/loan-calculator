@@ -1,6 +1,5 @@
 var serviceWorkerOption = {
   "assets": [
-    "/assets/ddcd52a14fb46f5873ea57d4176e1ab7.svg",
     "/assets/favicon-16x16.png",
     "/assets/favicon-32x32.png",
     "/assets/favicon.ico",
@@ -47,6 +46,7 @@ var serviceWorkerOption = {
     "/assets/manifest.json",
     "/assets/manifest.webapp",
     "/assets/browserconfig.xml",
+    "/assets/ddcd52a14fb46f5873ea57d4176e1ab7.svg",
     "/css/app.bundle.css",
     "/js/app.bundle.js"
   ]
