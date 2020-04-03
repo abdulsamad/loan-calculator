@@ -105,6 +105,7 @@ module.exports = {
 			entry: path.join(__dirname, 'src/service-worker.js'),
 			filename: 'service-worker.js',
 			includes: ['**/*', '/loan/index.html'],
+			publicPath: 'https://asamad05.github.io/loan_calculator/',
 		}),
 		new WebappWebpackPlugin({
 			logo: './src/img/icon.png',
