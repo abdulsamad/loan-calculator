@@ -4,7 +4,6 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -100,32 +99,6 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].bundle.css',
-		}),
-		new WebappWebpackPlugin({
-			logo: './src/img/icon.png',
-			cache: true,
-			inject: true,
-			favicons: {
-				path: 'assets/',
-				appName: 'LoanCalculator',
-				appShortName: 'LoanCalculator',
-				appDescription: "This Program help's you to Calculate Loan Repayment Amount",
-				developerName: 'Abdul Samad',
-				orientation: 'portrait',
-				background: '#d3d3d3',
-				theme_color: '#009688',
-				start_url: '/',
-				version: '1.0.0',
-				icons: {
-					android: true,
-					appleIcon: true,
-					appleStartup: true,
-					coast: false,
-					firefox: true,
-					windows: true,
-					yandex: false,
-				},
-			},
 		}),
 		new WorkboxWebpackPlugin.InjectManifest({
 			swSrc: './src/sw.js',
