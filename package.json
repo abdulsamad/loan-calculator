@@ -7,7 +7,8 @@
 	"scripts": {
 		"build": "webpack --mode=production",
 		"dev": "webpack-dev-server",
-		"dev-build": "webpack --mode=development"
+		"dev-build": "webpack --mode=development",
+		"copy-manifest": "cp src/manifest.json dist/ && cp -r src/assets dist/ && cp src/favicon.ico dist/"
 	},
 	"keywords": [
 		"loan",
