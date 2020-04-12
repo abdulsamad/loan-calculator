@@ -115,7 +115,6 @@ module.exports = {
 				background: '#d3d3d3',
 				theme_color: '#009688',
 				start_url: '/',
-				scope: '/loan_calculator',
 				version: '1.0.0',
 				icons: {
 					android: true,
