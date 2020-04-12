@@ -5,10 +5,10 @@
 	"main": "src/js/main.js",
 	"homepage": "https://asamad05.github.io/loan_calculator/",
 	"scripts": {
-		"build": "webpack --mode=production",
-		"dev": "webpack-dev-server",
-		"dev-build": "webpack --mode=development",
-		"copy-manifest": "cp src/manifest.json dist/ && cp -r src/assets dist/ && cp src/favicon.ico dist/"
+		"build": "webpack --mode=production && yarn run cp-manifest",
+		"dev": "webpack-dev-server && yarn run cp-manifest",
+		"dev-build": "webpack --mode=development && yarn run cp-manifest",
+		"cp-manifest": "cp src/manifest.json dist/ && cp -r src/assets dist/ && cp src/favicon.ico dist/"
 	},
 	"keywords": [
 		"loan",
