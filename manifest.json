@@ -1,7 +1,0 @@
-{
-  "app.css": "https://asamad05.github.io/loan_calculator/css/app.bundle.css",
-  "app.js": "https://asamad05.github.io/loan_calculator/js/app.bundle.js",
-  "./index.html": "https://asamad05.github.io/loan_calculator/./index.html",
-  "assets/top-background.svg": "https://asamad05.github.io/loan_calculator/assets/ddcd52a14fb46f5873ea57d4176e1ab7.svg",
-  "sw.js": "https://asamad05.github.io/loan_calculator/sw.js"
-}
