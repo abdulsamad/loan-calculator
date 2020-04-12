@@ -6,7 +6,6 @@
   "lang": "en-US",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/loan_calculator/",
   "start_url": "/",
   "background_color": "#d3d3d3",
   "theme_color": "#009688",
