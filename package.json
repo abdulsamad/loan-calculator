@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "This Program help's you to Calculate Loan Repayment Amount",
 	"main": "src/js/main.js",
-	"homepage": "/loan_calculator/",
+	"homepage": "https://asamad05.github.io/loan_calculator/",
 	"scripts": {
 		"build": "webpack --mode=production",
 		"dev": "webpack-dev-server",
