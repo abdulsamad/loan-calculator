@@ -4,9 +4,6 @@ import '../scss/style.scss';
 // Chartjs
 import Chart from 'chart.js';
 
-// Service Worker Webpack Plugin Runtime
-import runtime from 'serviceworker-webpack-plugin/lib/runtime';
-
 // jsPDF
 import * as jsPDF from 'jspdf';
 
@@ -21,7 +18,7 @@ const form = document.querySelector('#form');
 window.addEventListener('load', () => {
 	// Register Service Worker
 	if ('serviceWorker' in navigator) {
-		const registration = runtime.register();
+		navigator.serviceWorker.register('sw.js');
 	}
 	// Toggle Loading
 	setTimeout(() => {
@@ -104,9 +101,9 @@ class CalcEMI {
 			}
 			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(
 				this.emi(),
-			)}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency(
-				(newBalance -= principalPaid),
-			)}</td></tr>`;
+			)}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(
+				principalPaid,
+			)}</td><td>${formatCurrency((newBalance -= principalPaid))}</td></tr>`;
 		}
 		// Returning Value
 		const arrObj = {
@@ -297,8 +294,8 @@ class UI {
 
 	generateTablePDF(selector, table) {
 		try {
-			document.querySelector(selector).onclick = function() {
-				let callAddFont = function() {
+			document.querySelector(selector).onclick = function () {
+				let callAddFont = function () {
 					this.addFileToVFS('robotoCondensed-normal.ttf', font);
 					this.addFont('robotoCondensed-normal.ttf', 'robotoCondensed', 'normal');
 				};
@@ -334,7 +331,7 @@ class UI {
 
 	printData(selector, target) {
 		try {
-			document.querySelector(selector).onclick = function() {
+			document.querySelector(selector).onclick = function () {
 				let printBlock = document.querySelector(target);
 				let newWin = window.open('', 'Print Window');
 				newWin.document.write(`
@@ -379,22 +376,28 @@ class UI {
 	reset(selector) {
 		document.querySelector(selector).onclick = () => {
 			this.pieChart.destroy();
-			if (document.querySelector('.uiLineChartContainer').classList.contains('is-hidden') === false) {
+			if (
+				document.querySelector('.uiLineChartContainer').classList.contains('is-hidden') === false
+			) {
 				this.lineChart.destroy();
 			}
 			document.body.scrollIntoView({
 				behavior: 'smooth',
 			});
 			document.querySelector('#footer').classList.add('is-hidden');
-			document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('fadeOut'));
-			setTimeout(() => document.querySelectorAll('.uiResultItem').forEach(e => e.classList.add('is-hidden')), 500);
+			document.querySelectorAll('.uiResultItem').forEach((e) => e.classList.add('fadeOut'));
+			setTimeout(
+				() =>
+					document.querySelectorAll('.uiResultItem').forEach((e) => e.classList.add('is-hidden')),
+				500,
+			);
 		};
 	}
 
 	showResults(delay) {
 		setTimeout(() => {
 			// Toggle All Result
-			document.querySelectorAll('.uiResultItem').forEach(e => {
+			document.querySelectorAll('.uiResultItem').forEach((e) => {
 				e.classList.remove('is-hidden', 'fadeOut');
 			});
 
@@ -414,7 +417,7 @@ class UI {
 }
 
 // Form
-form.addEventListener('submit', ev => {
+form.addEventListener('submit', (ev) => {
 	ev.preventDefault();
 
 	// UI Variables
@@ -425,7 +428,10 @@ form.addEventListener('submit', ev => {
 		uiSubmitBtn = document.querySelector('#uiSubmitBtn');
 
 	// Validating Tenure
-	if ((uiTenureType === 'year' && uiTenure.value > 30) || (uiTenureType === 'month' && uiTenure.value > 360)) {
+	if (
+		(uiTenureType === 'year' && uiTenure.value > 30) ||
+		(uiTenureType === 'month' && uiTenure.value > 360)
+	) {
 		alert('Please enter a valid tenure (Maximum 30 Years or 360 Months)');
 		return false;
 	} else {
