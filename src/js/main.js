@@ -309,7 +309,7 @@ class UI {
 					theme: 'grid',
 					useCss: false,
 					styles: { font: 'robotoCondensed', fontStyle: 'normal', halign: 'center' },
-					headStyles: { font: 'helvetica', fontStyle: 'bold', fillColor: [0, 150, 136] },
+					headStyles: { font: 'helvetica', fontStyle: 'bold', fillColor: [3, 169, 244] },
 					footStyles: { fillColor: [202, 202, 202], textColor: [48, 48, 48] },
 					margin: {
 						top: 10,
