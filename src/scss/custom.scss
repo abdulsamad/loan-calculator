@@ -399,19 +399,15 @@ footer .content {
 	background-image: -webkit-gradient(linear, left top, right top, from(#e0eafc), to(#cfdef3));
 	background-image: linear-gradient(to right, #e0eafc, #cfdef3);
 	border-radius: 10px;
-	-webkit-transition: -webkit-box-shadow 1s ease;
-	-webkit-transition: box-shadow 1s ease;
-	transition: box-shadow 0.8s ease;
+	-webkit-transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+	transition: all 0.8s ease;
 
 	&.h-100 {
 		-webkit-transition: height 0.5s ease, -webkit-box-shadow 0.5s ease;
 		-webkit-transition: height 0.5s ease, box-shadow 0.5s ease;
 		transition: height 0.5s ease, box-shadow 0.5s ease;
 		height: 100%;
-	}
-
-	&:hover {
-		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 	}
 }
 
