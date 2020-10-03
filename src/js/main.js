@@ -34,7 +34,9 @@ function formatCurrency(val) {
 	const str = Number(val);
 	return new Intl.NumberFormat(uiCurrency.value, {
 		style: 'currency',
-		currency: uiCurrency.options[uiCurrency.selectedIndex].getAttribute('data-currency'),
+		currency: uiCurrency.options[uiCurrency.selectedIndex].getAttribute(
+			'data-currency',
+		),
 	}).format(str);
 }
 
@@ -44,8 +46,10 @@ class CalcEMI {
 		this.amount = parseFloat(amount).toFixed(2);
 		this.interest = parseFloat(interest);
 		this.monthlyInterest = this.interest / 100 / 12;
-		this.tenure = tenureType === 'year' ? parseFloat(tenure) : parseFloat(tenure / 12);
-		this.totalMonths = tenureType === 'month' ? parseFloat(tenure) : parseFloat(tenure * 12);
+		this.tenure =
+			tenureType === 'year' ? parseFloat(tenure) : parseFloat(tenure / 12);
+		this.totalMonths =
+			tenureType === 'month' ? parseFloat(tenure) : parseFloat(tenure * 12);
 	}
 
 	emi() {
@@ -99,11 +103,13 @@ class CalcEMI {
 				interestAmount = 0;
 				principalAmount = 0;
 			}
-			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(newBalance)}</td><td>${formatCurrency(
-				this.emi(),
-			)}</td><td>${formatCurrency(interestPaid)}</td><td>${formatCurrency(
-				principalPaid,
-			)}</td><td>${formatCurrency((newBalance -= principalPaid))}</td></tr>`;
+			tBodyStr += `<tr><th>${i}</th><td>${formatCurrency(
+				newBalance,
+			)}</td><td>${formatCurrency(this.emi())}</td><td>${formatCurrency(
+				interestPaid,
+			)}</td><td>${formatCurrency(principalPaid)}</td><td>${formatCurrency(
+				(newBalance -= principalPaid),
+			)}</td></tr>`;
 		}
 		// Returning Value
 		const arrObj = {
@@ -182,13 +188,14 @@ class UI {
 				],
 			},
 			options: {
+				maintainAspectRatio: false,
 				tooltips: {
 					callbacks: {
 						//prettier-ignore
 						label: (tooltipItem, data) => {
 							const label = `${data.labels[tooltipItem.index]} : ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}  (${((parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]) / this.totalAmount) * 100).toFixed(2)}%)`;
 							return label;
-						}
+						},
 					},
 				},
 			},
@@ -199,7 +206,9 @@ class UI {
 		const uiTableBody = document.querySelector('#uiTableBody'),
 			uiTableRepayTotal = document.querySelector('#uiTableRepayTotal'),
 			uiTableInterestTotal = document.querySelector('#uiTableInterestTotal'),
-			uiTablePrincipalPaidTotal = document.querySelector('#uiTablePrincipalPaidTotal');
+			uiTablePrincipalPaidTotal = document.querySelector(
+				'#uiTablePrincipalPaidTotal',
+			);
 
 		uiTableBody.innerHTML = this.tBodyStr;
 
@@ -210,7 +219,9 @@ class UI {
 
 	lineChart() {
 		const uiLineChart = document.querySelector('#lineChart');
-		const uiLineChartContainer = document.querySelector('.uiLineChartContainer');
+		const uiLineChartContainer = document.querySelector(
+			'.uiLineChartContainer',
+		);
 		const uiLineChartContext = uiLineChart.getContext('2d');
 		const uiCurrency = document.querySelector('#uiCurrency');
 		uiLineChart.innerHTML = null;
@@ -253,6 +264,7 @@ class UI {
 					],
 				},
 				options: {
+					maintainAspectRatio: false,
 					scales: {
 						yAxes: [
 							{
@@ -274,7 +286,7 @@ class UI {
 							label: (tooltipItem, data) => {
 								const label = `${data.datasets[tooltipItem.datasetIndex].label}: ${uiCurrency.options[uiCurrency.selectedIndex].innerText}${data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]}  (${((parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]) / this.totalAmount) * 100).toFixed(2)}%)`;
 								return label;
-							}
+							},
 						},
 					},
 				},
@@ -297,7 +309,11 @@ class UI {
 			document.querySelector(selector).onclick = function () {
 				let callAddFont = function () {
 					this.addFileToVFS('robotoCondensed-normal.ttf', font);
-					this.addFont('robotoCondensed-normal.ttf', 'robotoCondensed', 'normal');
+					this.addFont(
+						'robotoCondensed-normal.ttf',
+						'robotoCondensed',
+						'normal',
+					);
 				};
 				jsPDF.API.events.push(['addFonts', callAddFont]);
 				let doc = new jsPDF();
@@ -308,8 +324,16 @@ class UI {
 					html: table,
 					theme: 'grid',
 					useCss: false,
-					styles: { font: 'robotoCondensed', fontStyle: 'normal', halign: 'center' },
-					headStyles: { font: 'helvetica', fontStyle: 'bold', fillColor: [3, 169, 244] },
+					styles: {
+						font: 'robotoCondensed',
+						fontStyle: 'normal',
+						halign: 'center',
+					},
+					headStyles: {
+						font: 'helvetica',
+						fontStyle: 'bold',
+						fillColor: [3, 169, 244],
+					},
 					footStyles: { fillColor: [202, 202, 202], textColor: [48, 48, 48] },
 					margin: {
 						top: 10,
@@ -377,7 +401,9 @@ class UI {
 		document.querySelector(selector).onclick = () => {
 			this.pieChart.destroy();
 			if (
-				document.querySelector('.uiLineChartContainer').classList.contains('is-hidden') === false
+				document
+					.querySelector('.uiLineChartContainer')
+					.classList.contains('is-hidden') === false
 			) {
 				this.lineChart.destroy();
 			}
@@ -385,10 +411,14 @@ class UI {
 				behavior: 'smooth',
 			});
 			document.querySelector('#footer').classList.add('is-hidden');
-			document.querySelectorAll('.uiResultItem').forEach((e) => e.classList.add('fadeOut'));
+			document
+				.querySelectorAll('.uiResultItem')
+				.forEach((e) => e.classList.add('fadeOut'));
 			setTimeout(
 				() =>
-					document.querySelectorAll('.uiResultItem').forEach((e) => e.classList.add('is-hidden')),
+					document
+						.querySelectorAll('.uiResultItem')
+						.forEach((e) => e.classList.add('is-hidden')),
 				500,
 			);
 		};
