@@ -1,7 +1,12 @@
-import { formatCurrency } from './utils';
+import { formatCurrency, throwError } from './utils';
 
 class CalcEMI {
-	constructor(amount, interest, tenure, tenureType) {
+	constructor({
+		amount = throwError(),
+		interest = throwError(),
+		tenure = throwError(),
+		tenureType = throwError(),
+	}) {
 		this.amount = parseFloat(amount).toFixed(2);
 		this.interest = parseFloat(interest);
 		this.monthlyInterest = this.interest / 100 / 12;

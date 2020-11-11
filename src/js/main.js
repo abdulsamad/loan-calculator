@@ -1,5 +1,5 @@
-import CalcEMI from './calcemi';
-import UI from './ui';
+import CalcEMI from './modules/calcemi';
+import UI from './modules/ui';
 
 // CSS
 import '../scss/style.scss';
@@ -40,23 +40,28 @@ form.addEventListener('submit', (ev) => {
 	}
 
 	// Intantiate EMI
-	const emiObj = new CalcEMI(amount, interest, uiTenure.value, uiTenureType),
+	const emiObj = new CalcEMI({
+			amount,
+			interest,
+			tenure: uiTenure.value,
+			tenureType: uiTenureType,
+		}),
 		emiYearObj = emiObj.yearlyArr();
 
 	// Intantiate UI
-	const ui = new UI(
-		amount,
-		interest,
-		emiObj.emi(),
-		emiObj.totalMonths,
-		emiObj.totalAmount(),
-		emiObj.totalInterest(),
-		emiObj.timeArr(),
-		emiYearObj.yearlyPrincipalArr,
-		emiYearObj.yearlyInterestArr,
-		emiYearObj.yearlyTotalArr,
-		emiYearObj.tBodyStr,
-	);
+	const ui = new UI({
+		principal: amount,
+		interest: interest,
+		emi: emiObj.emi(),
+		totalMonths: emiObj.totalMonths,
+		totalAmount: emiObj.totalAmount(),
+		totalInterest: emiObj.totalInterest(),
+		timeArr: emiObj.timeArr(),
+		yearlyPrincipalArr: emiYearObj.yearlyPrincipalArr,
+		yearlyInterestArr: emiYearObj.yearlyInterestArr,
+		yearlyTotalArr: emiYearObj.yearlyTotalArr,
+		tBodyStr: emiYearObj.tBodyStr,
+	});
 
 	// Details
 	ui.detailsCard();

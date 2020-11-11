@@ -1,23 +1,23 @@
 import Chart from 'chart.js';
 import * as jsPDF from 'jspdf';
-import font from '../font/base64_for_jspdf';
+import font from '../../font/base64_for_jspdf';
 import 'jspdf-autotable';
-import { formatCurrency } from './utils';
+import { formatCurrency, throwError } from './utils';
 
 class UI {
-	constructor(
-		principal,
-		interest,
-		emi,
-		totalMonths,
-		totalAmount,
-		totalInterest,
-		timeArr,
-		yearlyPrincipalArr,
-		yearlyInterestArr,
-		yearlyTotalArr,
-		tBodyStr,
-	) {
+	constructor({
+		principal = throwError(),
+		interest = throwError(),
+		emi = throwError(),
+		totalMonths = throwError(),
+		totalAmount = throwError(),
+		totalInterest = throwError(),
+		timeArr = throwError(),
+		yearlyPrincipalArr = throwError(),
+		yearlyInterestArr = throwError(),
+		yearlyTotalArr = throwError(),
+		tBodyStr = throwError(),
+	}) {
 		this.principal = principal;
 		this.interest = interest;
 		this.emi = emi;

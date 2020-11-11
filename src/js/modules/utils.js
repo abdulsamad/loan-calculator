@@ -8,3 +8,8 @@ export function formatCurrency(val) {
 		),
 	}).format(str);
 }
+
+export function throwError() {
+	alert('Sorry! Something went wrong.');
+	throw new Error('Missing required parameter');
+}
