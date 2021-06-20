@@ -1,4 +1,5 @@
 ## Loan Calculator
+
 Loan Calculator with the ability to print and download as PDF with all loan repayment details
 
 ### :sparkles: Features

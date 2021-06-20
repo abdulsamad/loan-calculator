@@ -1,45 +1,45 @@
 {
-	"name": "loan_calculator",
-	"version": "1.0.0",
-	"description": "This Program help's you to Calculate Loan Repayment Amount",
-	"main": "src/js/main.js",
-	"homepage": "https://abdulsamad.github.io/loan_calculator/",
-	"scripts": {
-		"build": "webpack --mode=production && yarn run cp-manifest",
-		"dev": "webpack-dev-server && yarn run cp-manifest",
-		"dev-build": "webpack --mode=development && yarn run cp-manifest",
-		"cp-manifest": "cp src/manifest.json dist/ && cp -r src/assets dist/ && cp src/favicon.ico dist/"
-	},
-	"keywords": [
-		"loan",
-		"loancalulator"
-	],
-	"author": "Abdul Samad",
-	"license": "MIT",
-	"devDependencies": {
-		"@babel/core": "^7.8.7",
-		"@babel/preset-env": "^7.8.7",
-		"babel-loader": "^8.0.6",
-		"css-loader": "^3.4.2",
-		"file-loader": "^4.3.0",
-		"html-loader": "^0.5.5",
-		"html-webpack-plugin": "^3.2.0",
-		"mini-css-extract-plugin": "^0.7.0",
-		"node-sass": "^4.13.1",
-		"optimize-css-assets-webpack-plugin": "^5.0.1",
-		"sass-loader": "^7.3.1",
-		"script-ext-html-webpack-plugin": "^2.1.4",
-		"terser-webpack-plugin": "^1.3.0",
-		"url-loader": "^2.3.0",
-		"webpack": "^4.42.0",
-		"webpack-cli": "^3.3.11",
-		"webpack-dev-server": "^3.10.3",
-		"workbox-webpack-plugin": "^5.1.2"
-	},
-	"dependencies": {
-		"bulma": "^0.7.5",
-		"chart.js": "^2.9.4",
-		"jspdf": "^2.3.1",
-		"jspdf-autotable": "^3.2.2"
-	}
+  "name": "loan_calculator",
+  "version": "1.0.0",
+  "description": "This Program help's you to Calculate Loan Repayment Amount",
+  "main": "src/js/main.js",
+  "homepage": "https://abdulsamad.github.io/loan_calculator/",
+  "scripts": {
+    "build": "webpack --mode=production && yarn run cp-manifest",
+    "dev": "webpack-dev-server && yarn run cp-manifest",
+    "dev-build": "webpack --mode=development && yarn run cp-manifest",
+    "cp-manifest": "cp src/manifest.json dist/ && cp -r src/assets dist/ && cp src/favicon.ico dist/"
+  },
+  "keywords": [
+    "loan",
+    "loancalulator"
+  ],
+  "author": "Abdul Samad",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "file-loader": "^4.3.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "node-sass": "^4.13.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.3.1",
+    "script-ext-html-webpack-plugin": "^2.1.4",
+    "terser-webpack-plugin": "^1.3.0",
+    "url-loader": "^2.3.0",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "workbox-webpack-plugin": "^5.1.2"
+  },
+  "dependencies": {
+    "bulma": "^0.7.5",
+    "chart.js": "^2.9.4",
+    "jspdf": "^2.3.1",
+    "jspdf-autotable": "^3.2.2"
+  }
 }
