@@ -39,7 +39,7 @@ form.addEventListener("submit", (ev) => {
     uiTenure.blur();
   }
 
-  // Intantiate EMI
+  // Instantiate EMI
   const emiObj = new CalcEMI({
       amount,
       interest,
@@ -48,7 +48,7 @@ form.addEventListener("submit", (ev) => {
     }),
     emiYearObj = emiObj.yearlyArr();
 
-  // Intantiate UI
+  // Instantiate UI
   const ui = new UI({
     principal: amount,
     interest: interest,
